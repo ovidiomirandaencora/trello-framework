@@ -1,0 +1,128 @@
+name: CI
+
+# Controls when the workflow will run.
+on:
+  # When creating a new pull request to the 'main' branch.
+  pull_request:
+    branches: [ main ]
+    paths-ignore: [ '**.md' ]
+
+  # Allows you to run this workflow manually from the Actions tab.
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel.
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Allows you to get a copy of the source code from the repository to work with.
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 8 for x64
+        uses: actions/setup-java@v3
+        with:
+          java-version: 8
+          distribution: 'temurin'
+          architecture: x64
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+            gradle-version: 6.9
+      - run: gradle assemble
+      - run: gradle assemble testClasses
+
+  # Checkstyle and PMD.
+  static-analysis:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 8 for x64
+        uses: actions/setup-java@v3
+        with:
+          java-version: 8
+          distribution: 'temurin'
+          architecture: x64
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 6.9
+      - run: gradle staticAnalysis
+      - uses: actions/upload-artifact@v3
+        with:
+          name: staticAnalysisReports${{github.run_id}}
+          path: ./build/reports
+          retention-days: 2
+
+  # Documentation generation.
+  javadoc:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 8 for x64
+        uses: actions/setup-java@v3
+        with:
+          java-version: 8
+          distribution: 'temurin'
+          architecture: x64
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 6.9
+      - run: gradle javadoc
+      - uses: actions/upload-artifact@v3
+        with:
+          name: javadoc${{github.run_id}}
+          path: ./build/docs/javadoc
+          retention-days: 2
+
+  execution:
+    needs: [static-analysis, javadoc]
+    runs-on: ubuntu-latest
+    # These permissions are required to generate a report in the GitHub Action Summary(Unit test).
+    permissions:
+      contents: read
+      checks: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 8 for x64
+        uses: actions/setup-java@v3
+        with:
+          java-version: 8
+          distribution: 'temurin'
+          architecture: x64
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 6.9
+
+      # Execute unit tests.
+      - name: Unit tests
+        if: always()
+        run: gradle test
+
+      # Generate report in GitHub action summary.
+      - name: Unit test reporter
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: unit-tests
+          path: "./build/reports/tests/test/xml/TEST-*.xml"
+          reporter: java-junit
+          fail-on-error: false
