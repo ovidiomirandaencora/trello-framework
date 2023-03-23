@@ -48,6 +48,7 @@ jobs:
       checks: write
 
     steps:
+      # Cloning you repository to the runner.
       - name: Checkout code
         uses: actions/checkout@v3
 

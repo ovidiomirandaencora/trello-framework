@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Allows you to get a copy of the source code from the repository to work with.
+      # Cloning you repository to the runner.
       - name: Checkout code
         uses: actions/checkout@v3
 
