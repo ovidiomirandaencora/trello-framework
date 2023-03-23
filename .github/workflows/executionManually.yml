@@ -1,4 +1,4 @@
-name: Execution
+name: Execution Manually
 
 # Controls when the workflow will run.
 on:
@@ -31,11 +31,11 @@ on:
         required: false
         default: 'https://api.trello.com/1'
       apiKey:
-        description: 'API Key(e.g. "c60889565e7519a1123b1eea05a8592e")'
+        description: 'API Key(e.g. "c60889ea05a8592e")'
         type: string
         required: true
       apiToken:
-        description: 'API Token(e.g. "9rc055cf5be4d891eba711d2")'
+        description: 'API Token(e.g. "9rc055cf5a711d2")'
         type: string
         required: true
 
