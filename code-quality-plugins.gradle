@@ -1,0 +1,58 @@
+// [OM] Apply the Code Quality plugins.
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+
+println 'The Code Quality - Available tasks:'
+// [OM] All Checkstyle and PMD tasks.
+println "gradle staticAnalysis"
+// [OM] Runs Checkstyle against the production Java source files and test Java source files.
+println "gradle checkstyle"
+// [OM] Runs PMD against the production Java source files and test Java source files.
+println "gradle pmd"
+
+final String CODING_STYLE_SETTINGS_PATH = 'src/main/resources/codingstylesettings/'
+
+// [OM] Checkstyle configuration.
+checkstyle {
+    // [OM] Set version to use.
+    toolVersion = '8.10'
+    // [OM] Ignore warning and let the build continue.
+    ignoreFailures = false
+    // [OM] Whether rule violations are to be displayed on the console.
+    showViolations = false
+    // [OM] The path to the configuration file.
+    configFile file(CODING_STYLE_SETTINGS_PATH + "checkstyle/google_checks.xml")
+}
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        // [OM] The custom HTML report using an XSLT stylesheet.
+        html.stylesheet = resources.text.fromFile(CODING_STYLE_SETTINGS_PATH + "checkstyle/xsl/checkstyle-noframes-severity-sorted.xsl")
+    }
+}
+
+// [OM] PMD configuration.
+pmd {
+    // [OM] Set version to use.
+    toolVersion = '6.0.0'
+    // [OM] Ignore warning and let the build continue.
+    ignoreFailures = false
+    // [OM] Set rules to use.
+    ruleSets = ["java-basic","java-braces", "java-unnecessary",
+    "java-unusedcode", "java-strictexception"]
+}
+tasks.withType(Pmd) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+task checkstyle(dependsOn: [checkstyleMain, checkstyleTest])
+task pmd(dependsOn: [pmdMain, pmdTest])
+
+task staticAnalysis {
+    dependsOn 'checkstyle'
+    dependsOn 'pmd'
+}

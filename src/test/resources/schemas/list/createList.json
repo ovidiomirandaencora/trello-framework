@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "maxProperties": 7,
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "closed": {
+      "type": "boolean"
+    },
+    "idBoard": {
+      "type": "string"
+    },
+    "pos": {
+      "type": "integer"
+    },
+    "status": {
+      "type": "null"
+    },
+    "limits": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "closed",
+    "idBoard",
+    "pos",
+    "status",
+    "limits"
+  ]
+}
