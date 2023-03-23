@@ -1,0 +1,99 @@
+name: Execution
+
+# Controls when the workflow will run.
+on:
+  # Allows you to run this workflow manually from the Actions tab.
+  workflow_dispatch:
+    inputs:
+      scenarioTag:
+        description: 'Scenario Tag to execute(e.g. "@TC-00001")'
+        type: string
+        required: false
+        default: '@Regression'
+      baseUrl:
+        description: 'Base Url(e.g. "https://trello.com")'
+        type: string
+        required: true
+        default: 'https://trello.com'
+      userEmail:
+        description: 'User email (Web)(e.g. "user@gmail.com")'
+        type: string
+        required: false
+        default: 'user@gmail.com'
+      userPassword:
+        description: 'User password (Web)(e.g. "password")'
+        type: string
+        required: false
+        default: 'password'
+      apiUrl:
+        description: 'Api Url(e.g. "https://api.trello.com/1")'
+        type: string
+        required: false
+        default: 'https://api.trello.com/1'
+      apiKey:
+        description: 'API Key(e.g. "c60889565e7519a1123b1eea05a8592e")'
+        type: string
+        required: true
+      apiToken:
+        description: 'API Token(e.g. "9rc055cf5be4d891eba711d2")'
+        type: string
+        required: true
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel.
+jobs:
+  execution:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 8 for x64
+        uses: actions/setup-java@v3
+        with:
+          java-version: 8
+          distribution: 'temurin'
+          architecture: x64
+
+      # Using shell script to install Google Chrome.
+      - name: Install Google Chrome
+        # Install if the user email value is different from the default value.
+        if: ${{inputs.userEmail != 'user@gmail.com'}}
+        run: |
+          chmod +x ./scripts/InstallChrome.sh
+          ./scripts/InstallChrome.sh
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 6.9
+      - run: |
+          gradle executeFeatures \
+              -Dcucumber.filter.tags="${{inputs.scenarioTag}}" \
+              -Pbrowser="CHROME_HEADLESS" \
+              -PbaseUrl="${{inputs.baseUrl}}" \
+              -Puser="${{inputs.userEmail}}" -Ppassword="${{inputs.userPassword}}" \
+              -PapiUrl="${{inputs.apiUrl}}" \
+              -PapiKey="${{inputs.apiKey}}" -PapiToken="${{inputs.apiToken}}"
+
+      # Upload Allure report.
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: allureReport${{github.run_id}}
+          path: ./build/allure
+          retention-days: 2
+          if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`.
+
+      # Upload log file.
+      - name: Upload log file
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: logs${{github.run_id}}
+          path: ./logs
+          retention-days: 2
