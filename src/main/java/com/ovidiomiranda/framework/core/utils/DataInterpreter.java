@@ -21,7 +21,8 @@ public final class DataInterpreter {
    * <p>Note: Replaces the key and value identifiers enclosed in brackets with the corresponding
    * value.
    *
-   * @param line the original string line parameter.
+   * @param line    the original string line parameter.
+   * @param context Context.
    * @return the built end point.
    */
   public static String builtEndPoint(final String line, final Context context) {
@@ -38,6 +39,7 @@ public final class DataInterpreter {
    * where the key and value are enclosed in brackets "[key.value]".
    *
    * @param text is the String parameter to process.
+   * @param context Context.
    * @return the key value.
    */
   public static String getValueFromContext(final String text, final Context context) {

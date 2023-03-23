@@ -49,6 +49,7 @@ public class RequestSteps {
   /**
    * Sends a POST request with body.
    *
+   * @param method is the request type.
    * @param param    is the specified end point.
    * @param expected is the map body content.
    */

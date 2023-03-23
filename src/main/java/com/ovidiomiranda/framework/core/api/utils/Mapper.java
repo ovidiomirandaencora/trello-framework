@@ -47,6 +47,7 @@ public final class Mapper {
    * Mappers HashMap values to JSON String.
    *
    * @param map the map values.
+   * @param context Context.
    * @return the Json String.
    */
   public static String mapValues(final Map<String, String> map, final Context context) {
