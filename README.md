@@ -5,8 +5,8 @@
 gradle clean executeFeatures -Pbrowser="CHROME" -PbaseUrl="https://trello.com" -Puser="myusername@gmail.com" -Ppassword="mypassword" -PapiUrl="https://api.trello.com/1" -PapiKey="c60889565e7519a1123b1eea05a8592e"  -PapiToken="9rc055cf5be4d891eba711d2" 
 ```
 ### Short command
-You need to put the information of those parameters in 'gradle.properties' because that data will be used to run the scenarios.
-Run a specific scenario:
+You need to put the information of those parameters in 'gradle.properties' because that data will be used to run the scenarios.  
+Run a specific scenario:  
 "@TC-00001" - Specific test case.
 ```shell
 gradle clean executeFeatures -Dcucumber.filter.tags="@TC-00001"
@@ -19,7 +19,8 @@ Tags examples:
 - e2e
 - Negative
 - Boundary
-"@Regression" - All test cases.
+Example:  
+"@Regression" - All test cases.  
 ```shell
 gradle clean executeFeatures -Dcucumber.filter.tags="@Regression"
 ```
