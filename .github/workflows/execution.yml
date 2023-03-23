@@ -36,11 +36,9 @@ jobs:
           distribution: 'temurin'
           architecture: x64
 
-      # Using shell script to install Google Chrome.
-      - name: Install Google Chrome
-        run: |
-          chmod +x ./scripts/InstallChrome.sh
-          ./scripts/InstallChrome.sh
+      - name: Install and setup latest Google Chrome
+        uses: browser-actions/setup-chrome@v1
+      - run: chrome --version
 
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
