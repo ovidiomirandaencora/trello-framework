@@ -9,13 +9,10 @@ import java.util.regex.Pattern;
  */
 public final class DataInterpreter {
 
-
-
   /**
    * Private constructor for the Data Builder utility class.
    */
   private DataInterpreter() {
-
   }
 
   /**
@@ -28,12 +25,12 @@ public final class DataInterpreter {
    * @return the built end point.
    */
   public static String builtEndPoint(final String line, final Context context) {
-    final String SLASH = "/";
-    String[] parts = line.split(SLASH);
+    final String slash = "/";
+    String[] parts = line.split(slash);
     for (int i = 0; i < parts.length; i++) {
       parts[i] = getValueFromContext(parts[i], context);
     }
-    return String.join(SLASH, parts);
+    return String.join(slash, parts);
   }
 
   /**
@@ -44,8 +41,8 @@ public final class DataInterpreter {
    * @return the key value.
    */
   public static String getValueFromContext(final String text, final Context context) {
-    final String REGEX_BRACKETS_INSIDE = "(?<=\\[)(.*?)(?=])";
-    Pattern pattern = Pattern.compile(REGEX_BRACKETS_INSIDE);
+    final String regexBracketsInside = "(?<=\\[)(.*?)(?=])";
+    Pattern pattern = Pattern.compile(regexBracketsInside);
     Matcher matcher = pattern.matcher(text);
     if (matcher.find()) {
       // Split [key.value]

@@ -1,6 +1,5 @@
 package com.ovidiomiranda.framework.core.utils;
 
-
 import static com.ovidiomiranda.framework.core.utils.Constants.EMPTY_STRING;
 import static java.lang.String.format;
 

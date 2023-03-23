@@ -27,13 +27,15 @@ public final class Mapper {
   }
 
   /**
-   * @param value
-   * @param storedValues
-   * @return The new endPoint with params replaced.
+   * Mappers Map values to JSON String.
+   *
+   * @param value        the value.
+   * @param storedValues the map.
+   * @return the Json String.
    */
   public static String mapValueNew(final String value, final Map<String, Object> storedValues) {
     String val = value;
-    // Remplaza todos los valores que coincidan.
+    // [OM] Replaces all matching values.
     for (Map.Entry<String, Object> entry : storedValues.entrySet()) {
       // [OM] Replaces a value inside '{id}' with a value stored in the context.
       val = val.replace("{" + entry.getKey() + "}", String.format("%s", entry.getValue()));
