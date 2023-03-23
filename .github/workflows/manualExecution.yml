@@ -1,4 +1,4 @@
-name: Execution Manually
+name: Manual execution
 
 # Controls when the workflow will run.
 on:
