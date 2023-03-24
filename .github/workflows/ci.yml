@@ -5,7 +5,6 @@ on:
   # When creating a new pull request to the 'develop' branch.
   pull_request:
     branches: [ develop ]
-    types: [labeled]
     paths-ignore: [ '**.md' ]
 
   # Allows you to run this workflow manually from the Actions tab.
@@ -15,7 +14,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: ${{github.event.label.name == 'review_start'}}
+    if: contains( github.event.pull_request.labels.*.name, 'review_start')
 
     steps:
       # Cloning you repository to the runner.
