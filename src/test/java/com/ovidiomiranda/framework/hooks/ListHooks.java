@@ -23,7 +23,7 @@ public class ListHooks {
   /**
    * Initializes a new instance of the ListHooks class.
    *
-   * @param contextToSet Context to Set.
+   * @param contextToSet Context to set.
    */
   public ListHooks(final Context contextToSet) {
     this.context = contextToSet;
