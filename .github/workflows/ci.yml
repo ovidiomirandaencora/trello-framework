@@ -2,9 +2,9 @@ name: CI
 
 # Controls when the workflow will run.
 on:
-  # When creating a new pull request to the 'main' branch.
+  # When creating a new pull request to the 'develop' branch.
   pull_request:
-    branches: [ main ]
+    branches: [ develop ]
     paths-ignore: [ '**.md' ]
 
   # Allows you to run this workflow manually from the Actions tab.
@@ -14,6 +14,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Execute when a specific label('review_start') is added to Pull request.
+    if: contains(github.event.pull_request.labels.*.name, 'review_start')
 
     steps:
       # Cloning you repository to the runner.
@@ -59,7 +61,7 @@ jobs:
         with:
           name: staticAnalysisReports${{github.run_id}}
           path: ./build/reports
-          retention-days: 2
+          retention-days: 5
 
   # Documentation generation.
   javadoc:
@@ -86,7 +88,7 @@ jobs:
         with:
           name: javadoc${{github.run_id}}
           path: ./build/docs/javadoc
-          retention-days: 2
+          retention-days: 5
 
   execution:
     needs: [static-analysis, javadoc]
@@ -107,10 +109,43 @@ jobs:
           distribution: 'temurin'
           architecture: x64
 
+      - name: Install and setup latest Google Chrome
+        uses: browser-actions/setup-chrome@v1
+      - run: chrome --version
+
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 6.9
+        # Configuration variables in your repository.
+        # Settings -> Secrets and variables -> Actions -> Secrets(secrets) or Variables(vars).
+      - run: |
+          gradle executeFeatures \
+              -Dcucumber.filter.tags="${{github.event.inputs.scenarioTag || '@Regression' }}" \
+              -Pbrowser="CHROME_HEADLESS" \
+              -PbaseUrl="${{vars.BASE_URL}}" \
+              -Puser="${{vars.USER_EMAIL}}" -Ppassword="${{secrets.USER_PASSWORD}}" \
+              -PapiUrl="${{vars.API_URL}}" \
+              -PapiKey="${{secrets.API_KEY}}" -PapiToken="${{secrets.API_TOKEN}}"
+
+      # Upload Allure report.
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: allureReport${{github.run_id}}
+          path: ./build/allure
+          retention-days: 5
+          if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`.
+
+      # Upload log file.
+      - name: Upload log file
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: logs${{github.run_id}}
+          path: ./logs
+          retention-days: 5
 
       # Execute unit tests.
       - name: Unit tests
