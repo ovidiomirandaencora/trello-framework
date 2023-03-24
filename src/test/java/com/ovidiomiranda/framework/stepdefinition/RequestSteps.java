@@ -29,7 +29,7 @@ public class RequestSteps {
   /**
    * Constructor of Request Step Definitions.
    *
-   * @param contextToSet Context to set
+   * @param contextToSet Context to set.
    */
   public RequestSteps(final Context contextToSet) {
     this.context = contextToSet;

@@ -21,9 +21,9 @@ public class WorkspaceHooks {
   private Context context;
 
   /**
-   * Initializes a new instance of the ClientHooks class.
+   * Initializes a new instance of the WorkspaceHooks class.
    *
-   * @param contextToSet Context to Set.
+   * @param contextToSet Context to set.
    */
   public WorkspaceHooks(final Context contextToSet) {
     this.context = contextToSet;
