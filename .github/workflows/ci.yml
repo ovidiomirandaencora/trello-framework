@@ -14,7 +14,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: contains( github.event.pull_request.labels.*.name, 'review_start')
+    # Execute when a specific label('review_start') is added to Pull request.
+    if: contains(github.event.pull_request.labels.*.name, 'review_start')
 
     steps:
       # Cloning you repository to the runner.
