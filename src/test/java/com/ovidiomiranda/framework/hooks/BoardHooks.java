@@ -19,7 +19,7 @@ public class BoardHooks {
   private Context context;
 
   /**
-   * Initializes a new instance of the ClientHooks class.
+   * Initializes a new instance of the BoardHooks class.
    *
    * @param contextToSet Context to set.
    */
