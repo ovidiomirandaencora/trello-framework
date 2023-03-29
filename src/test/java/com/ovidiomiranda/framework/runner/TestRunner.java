@@ -16,7 +16,8 @@ import org.testng.annotations.AfterClass;
     features = {"src/test/resources/features"},
     plugin = {
         "pretty",
-        "io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm"
+        "io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm",
+        "rerun:build/target/rerun.txt"
     })
 public class TestRunner extends AbstractTestNGCucumberTests {
 
