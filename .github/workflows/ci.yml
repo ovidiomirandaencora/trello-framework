@@ -98,7 +98,7 @@ jobs:
     runs-on: ubuntu-latest
     # These permissions are required to generate a report in the GitHub Action Summary(Unit test).
     permissions:
-      contents: write  # To push a branch 
+      contents: write  # To push a branch(gh_pages).
       checks: write
 
     steps:
