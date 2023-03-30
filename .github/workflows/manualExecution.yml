@@ -42,10 +42,10 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel.
 jobs:
   execution:
+    # The type of runner that the job will run on.
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      checks: write
+      contents: write # To push a branch (gh_pages).
 
     steps:
       # Cloning you repository to the runner.
@@ -71,7 +71,10 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 6.9
-      - run: |
+        run: gradle --version
+
+      - name: Execute Features
+        run: |
           gradle executeFeatures \
               -Dcucumber.filter.tags="${{inputs.scenarioTag}}" \
               -Pbrowser="CHROME_HEADLESS" \
@@ -80,15 +83,31 @@ jobs:
               -PapiUrl="${{inputs.apiUrl}}" \
               -PapiKey="${{inputs.apiKey}}" -PapiToken="${{inputs.apiToken}}"
 
-      # Upload Allure report.
-      - name: Upload report
+      - name: Get Allure history
+        uses: actions/checkout@v3
         if: always()
-        uses: actions/upload-artifact@v3
+        continue-on-error: true
         with:
-          name: allureReport${{github.run_id}}
-          path: ./build/allure
-          retention-days: 5
-          if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`.
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Allure Report action from marketplace
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        id: allure-report
+        with:
+          allure_results: ./build/allure/allure-results
+          gh_pages: gh-pages
+          allure_report: allure-report
+          allure_history: allure-history
+
+      - name: Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
 
       # Upload log file.
       - name: Upload log file

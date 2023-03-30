@@ -45,6 +45,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Cloning you repository to the runner.
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -73,6 +74,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Cloning you repository to the runner.
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -105,6 +107,7 @@ jobs:
                       # to post a check with test reports in the GitHub Action Summary(Unit test).
 
     steps:
+      # Cloning you repository to the runner.
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -117,13 +120,13 @@ jobs:
 
       - name: Install and setup latest Google Chrome
         uses: browser-actions/setup-chrome@v1
-      - run: chrome --version
+        run: chrome --version
 
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 6.9
-      - run: gradle --version
+        run: gradle --version
 
       - name: Execute Features
         # Configuration variables in your repository.
