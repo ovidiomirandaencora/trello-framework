@@ -2,9 +2,6 @@ name: CI
 
 # Controls when the workflow will run.
 on:
-  release:
-    types:
-      - created
   # When creating a new pull request to the 'develop' branch.
   pull_request:
     branches: [ develop ]
