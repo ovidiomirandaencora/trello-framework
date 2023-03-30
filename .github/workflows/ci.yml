@@ -93,10 +93,11 @@ jobs:
   execution:
     needs: [static-analysis, javadoc]
     runs-on: ubuntu-latest
-    # These permissions are required to generate a report in the GitHub Action Summary(Unit test).
+    # These permissions are required to generate reports.
     permissions:
-      contents: write  # To push a branch(gh_pages).
-      checks: write
+      contents: write # To push a branch (gh_pages).
+      checks: write   # dorny/test-reporter actions requires checks: write permissions
+                      # to post a check with test reports in the GitHub Action Summary(Unit test).
 
     steps:
       - name: Checkout code
@@ -128,16 +129,6 @@ jobs:
               -PapiUrl="${{vars.API_URL}}" \
               -PapiKey="${{secrets.API_KEY}}" -PapiToken="${{secrets.API_TOKEN}}"
 
-      # Upload Allure report.
-      - name: Upload report
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: allureReport${{github.run_id}}
-          path: ./build/allure
-          retention-days: 5
-          if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`.
-
       - name: Get Allure history
         uses: actions/checkout@v3
         if: always()
@@ -158,7 +149,7 @@ jobs:
 
       - name: Deploy report to Github Pages
         if: always()
-        uses: peaceiris/actions-gh-pages@v2
+        uses: peaceiris/actions-gh-pages@v3
         env:
           PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: gh-pages
