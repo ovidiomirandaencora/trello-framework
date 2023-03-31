@@ -12,7 +12,9 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel.
 jobs:
+
   build:
+    # The type of runner that the job will run on.
     runs-on: ubuntu-latest
     # Execute when a specific label('review_start') is added to Pull request.
     if: contains(github.event.pull_request.labels.*.name, 'review_start')
@@ -32,16 +34,18 @@ jobs:
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
         with:
-            gradle-version: 6.9
+          gradle-version: 6.9
       - run: gradle assemble
       - run: gradle assemble testClasses
 
   # Checkstyle and PMD.
   static-analysis:
     needs: build
+    # The type of runner that the job will run on.
     runs-on: ubuntu-latest
 
     steps:
+      # Cloning you repository to the runner.
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -66,9 +70,11 @@ jobs:
   # Documentation generation.
   javadoc:
     needs: build
+    # The type of runner that the job will run on.
     runs-on: ubuntu-latest
 
     steps:
+      # Cloning you repository to the runner.
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -92,13 +98,16 @@ jobs:
 
   execution:
     needs: [static-analysis, javadoc]
+    # The type of runner that the job will run on.
     runs-on: ubuntu-latest
-    # These permissions are required to generate a report in the GitHub Action Summary(Unit test).
+    # These permissions are required to generate reports.
     permissions:
-      contents: read
-      checks: write
+      contents: write # To push a branch (gh_pages).
+      checks: write   # dorny/test-reporter actions requires checks: write permissions
+      # to post a check with test reports in the GitHub Action Summary(Unit test).
 
     steps:
+      # Cloning you repository to the runner.
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -111,15 +120,16 @@ jobs:
 
       - name: Install and setup latest Google Chrome
         uses: browser-actions/setup-chrome@v1
-      - run: chrome --version
 
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 6.9
+
+      - name: Execute Features
         # Configuration variables in your repository.
         # Settings -> Secrets and variables -> Actions -> Secrets(secrets) or Variables(vars).
-      - run: |
+        run: |
           gradle executeFeatures \
               -Dcucumber.filter.tags="${{github.event.inputs.scenarioTag || '@Regression' }}" \
               -Pbrowser="CHROME_HEADLESS" \
@@ -128,15 +138,31 @@ jobs:
               -PapiUrl="${{vars.API_URL}}" \
               -PapiKey="${{secrets.API_KEY}}" -PapiToken="${{secrets.API_TOKEN}}"
 
-      # Upload Allure report.
-      - name: Upload report
+      - name: Get Allure history
+        uses: actions/checkout@v3
         if: always()
-        uses: actions/upload-artifact@v3
+        continue-on-error: true
         with:
-          name: allureReport${{github.run_id}}
-          path: ./build/allure
-          retention-days: 5
-          if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`.
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Allure Report action from marketplace
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        id: allure-report
+        with:
+          allure_results: ./build/allure/allure-results
+          gh_pages: gh-pages
+          allure_report: allure-report
+          allure_history: allure-history
+
+      - name: Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
 
       # Upload log file.
       - name: Upload log file
