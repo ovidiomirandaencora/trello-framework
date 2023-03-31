@@ -74,6 +74,7 @@ jobs:
         run: gradle --version
 
       - name: Execute Features
+        # Get the values of the inputs.
         run: |
           gradle executeFeatures \
               -Dcucumber.filter.tags="${{inputs.scenarioTag}}" \
