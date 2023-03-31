@@ -186,7 +186,6 @@ public final class CommonWebActions {
   private static String getLocatorFromWebElement(final WebElement element) {
     String result = "";
     String original = element.toString();
-    System.out.println(original);
     // [OM] Extract all word inside apostrophes('').
     // Proxy element for: DefaultElementLocator 'By.cssSelector: button.btn-primary'
     Pattern pattern = Pattern.compile("'(.*?)'");
