@@ -120,7 +120,7 @@ jobs:
 
       - name: Install and setup latest Google Chrome
         uses: browser-actions/setup-chrome@v1
-        run: chrome --version
+      - run: chrome --version
 
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
