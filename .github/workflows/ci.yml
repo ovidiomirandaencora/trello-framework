@@ -120,13 +120,11 @@ jobs:
 
       - name: Install and setup latest Google Chrome
         uses: browser-actions/setup-chrome@v1
-      - run: chrome --version
 
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 6.9
-      - run: gradle --version
 
       - name: Execute Features
         # Configuration variables in your repository.
