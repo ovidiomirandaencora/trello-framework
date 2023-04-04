@@ -22,3 +22,13 @@ Feature: Board
       And verifies response body should match with "board/createBoard.json" JSON schema
       And verifies the response contain the following values:
         | name | A |
+
+  @TC-00024 @Smoke @Functional @CreateWorkspace @DeleteWorkspace
+  Scenario: Test
+    When a POST request to "/boards" with the following values:
+      | idOrganization | [Organization.id] |
+      | name           | A                 |
+    Then the status code should be 200
+    And verifies response body should match with "board/createBoard.json" JSON schema
+    And verifies the response contain the following values:
+      | name | A |
