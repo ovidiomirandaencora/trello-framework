@@ -29,6 +29,6 @@ Feature: Board
       | idOrganization | [Organization.id] |
       | name           | A                 |
     Then the status code should be 200
-    And verifies response body should match with "board/createBoard.json" JSON schema
-    And verifies the response contain the following values:
-      | name | A |
+      And verifies response body should match with "board/createBoard.json" JSON schema
+      And verifies the response contain the following values:
+        | name | A |
