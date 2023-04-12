@@ -13,8 +13,9 @@ on:
 
   schedule:
     # Scheduled the execution.
-    # Every day at 9:30 AM (Bolivia).
-    - cron: '30 13 * * *'
+    # Every friday at 21:00 PM (Bolivia).
+    # All the cron job in GitHub Actions is in UTC.
+    - cron: '0 1 * * 6'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel.
 jobs:
