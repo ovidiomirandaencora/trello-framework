@@ -85,6 +85,7 @@ jobs:
 
       # Re-execute if there are failed scenarios using the 'rerun.txt' file.
       - name: Re-Execute Features
+        if: always()
         run: |
           gradle reExecuteFeatures \
               -Pbrowser="CHROME_HEADLESS" \
