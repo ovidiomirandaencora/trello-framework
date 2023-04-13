@@ -144,6 +144,7 @@ jobs:
               -PapiUrl="${{ vars.API_URL }}" \
               -PapiKey="${{ secrets.API_KEY }}" -PapiToken="${{ secrets.API_TOKEN }}"
 
+      # Re-execute if there are failed scenarios using the 'rerun.txt' file.
       - name: Re-Execute Features
         run: |
           gradle reExecuteFeatures \
