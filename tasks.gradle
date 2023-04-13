@@ -50,9 +50,10 @@ task executeFeatures(type: Test) {
 // [OM] Task to re execute the failed scenarios using 'rerun.txt' file.
 task reExecuteFeatures(type: Test) {
     doFirst {
-        File failedScenariosFile = new File("build/target/rerun.txt")
+        File failedScenariosFile = new File("./build/target/rerun.txt")
         // [OM] If the 'rerun.txt' has information it will be re execute the scenarios.
         if (failedScenariosFile.exists() && !failedScenariosFile.getText().isEmpty()) {
+            println "Re Execute Features"
             useTestNG()
             options {
                 useDefaultListeners = false
