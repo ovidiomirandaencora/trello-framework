@@ -63,7 +63,7 @@ jobs:
       # Using shell script to install Google Chrome.
       - name: Install Google Chrome
         # Install if the user email value is different from the default value.
-        if: ${{inputs.userEmail != 'user@gmail.com'}}
+        if: ${{ inputs.userEmail != 'user@gmail.com' }}
         run: |
           chmod +x ./scripts/InstallChrome.sh
           ./scripts/InstallChrome.sh
@@ -76,12 +76,21 @@ jobs:
       - name: Execute Features
         run: |
           gradle executeFeatures \
-              -Dcucumber.filter.tags="${{inputs.scenarioTag}}" \
+              -Dcucumber.filter.tags="${{ inputs.scenarioTag }}" \
               -Pbrowser="CHROME_HEADLESS" \
-              -PbaseUrl="${{inputs.baseUrl}}" \
-              -Puser="${{inputs.userEmail}}" -Ppassword="${{inputs.userPassword}}" \
-              -PapiUrl="${{inputs.apiUrl}}" \
-              -PapiKey="${{inputs.apiKey}}" -PapiToken="${{inputs.apiToken}}"
+              -PbaseUrl="${{ inputs.baseUrl }}" \
+              -Puser="${{ inputs.userEmail }}" -Ppassword="${{ inputs.userPassword }}" \
+              -PapiUrl="${{ inputs.apiUrl }}" \
+              -PapiKey="${{ inputs.apiKey }}" -PapiToken="${{ inputs.apiToken }}"
+
+      - name: Re-Execute Features
+        run: |
+          gradle reExecuteFeatures \
+              -Pbrowser="CHROME_HEADLESS" \
+              -PbaseUrl="${{ inputs.baseUrl }}" \
+              -Puser="${{ inputs.userEmail }}" -Ppassword="${{ inputs.userPassword }}" \
+              -PapiUrl="${{ inputs.apiUrl }}" \
+              -PapiKey="${{ inputs.apiKey }}" -PapiToken="${{ inputs.apiToken }}"
 
       - name: Get Allure history
         uses: actions/checkout@v3
@@ -114,6 +123,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: logs${{github.run_id}}
+          name: logs${{ github.run_id }}
           path: ./logs
           retention-days: 5
