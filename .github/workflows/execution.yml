@@ -51,12 +51,22 @@ jobs:
         # Settings -> Secrets and variables -> Actions -> Secrets(secrets) or Variables(vars).
         run: |
           gradle executeFeatures \
-              -Dcucumber.filter.tags="${{github.event.inputs.scenarioTag || '@Regression' }}" \
+              -Dcucumber.filter.tags="${{ github.event.inputs.scenarioTag || '@Regression' }}" \
               -Pbrowser="CHROME_HEADLESS" \
-              -PbaseUrl="${{vars.BASE_URL}}" \
-              -Puser="${{vars.USER_EMAIL}}" -Ppassword="${{secrets.USER_PASSWORD}}" \
-              -PapiUrl="${{vars.API_URL}}" \
-              -PapiKey="${{secrets.API_KEY}}" -PapiToken="${{secrets.API_TOKEN}}"
+              -PbaseUrl="${{ vars.BASE_URL }}" \
+              -Puser="${{ vars.USER_EMAIL }}" -Ppassword="${{ secrets.USER_PASSWORD }}" \
+              -PapiUrl="${{ vars.API_URL }}" \
+              -PapiKey="${{ secrets.API_KEY }}" -PapiToken="${{ secrets.API_TOKEN }}"
+
+      # Re-execute if there are failed scenarios using the 'rerun.txt' file.
+      - name: Re-Execute Features
+        run: |
+          gradle reExecuteFeatures \
+              -Pbrowser="CHROME_HEADLESS" \
+              -PbaseUrl="${{ vars.BASE_URL }}" \
+              -Puser="${{ vars.USER_EMAIL }}" -Ppassword="${{ secrets.USER_PASSWORD }}" \
+              -PapiUrl="${{ vars.API_URL }}" \
+              -PapiKey="${{ secrets.API_KEY }}" -PapiToken="${{ secrets.API_TOKEN }}"
 
       - name: Get Allure history
         uses: actions/checkout@v3
@@ -89,6 +99,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: logs${{github.run_id}}
+          name: logs${{ github.run_id }}
           path: ./logs
           retention-days: 5
