@@ -22,9 +22,9 @@ jobs:
   build:
     # The type of runner that the job will run on.
     runs-on: ubuntu-latest
-    # Execute when a specific label('review_start') is added to Pull request.
-    if: contains(github.event.pull_request.labels.*.name, 'review_start')
-
+    # Execute when a specific label('review_start') is added to Pull request
+    # or is executed manually.
+    if: contains(github.event.pull_request.labels.*.name, 'review_start') || github.event_name == 'workflow_dispatch'
     steps:
       # Cloning you repository to the runner.
       - name: Checkout code
@@ -132,6 +132,12 @@ jobs:
         with:
           gradle-version: 6.9
 
+      - id: get-id
+        run: |
+          id=$(echo ${{ github.head_ref }} | cut -f2 -d"/")
+          echo "::set-output name=id::$id"
+      - run: echo "${{ steps.get-id.outputs.id }}"
+
       - name: Execute Features
         id: execute-features
         # Configuration variables in your repository.
@@ -147,7 +153,7 @@ jobs:
 
       # Re-execute if there are failed scenarios using the 'rerun.txt' file.
       - name: Re-Execute Features
-        if: ${{ steps.execute-features.outcome != 'success' }}
+        if: ${{ failure() && steps.execute-features.conclusion == 'failure' }}
         run: |
           gradle reExecuteFeatures \
               -Pbrowser="CHROME_HEADLESS" \
