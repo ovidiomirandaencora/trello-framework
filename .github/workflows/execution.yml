@@ -61,7 +61,7 @@ jobs:
 
       # Re-execute if there are failed scenarios using the 'rerun.txt' file.
       - name: Re-Execute Features
-        if: ${{ steps.execute-features.outcome != 'success' }}
+        if: ${{ failure() && steps.execute-features.conclusion == 'failure' }}
         run: |
           gradle reExecuteFeatures \
               -Pbrowser="CHROME_HEADLESS" \
