@@ -133,7 +133,7 @@ jobs:
           gradle-version: 6.9
 
       - id: get-id
-        run: echo "id_tag=$(echo ${{ github.head_ref }} | cut -f2 -d"/") >> $GITHUB_OUTPUT
+        run: echo "id_tag=$(echo ${{ github.head_ref }} | cut -f2 -d"/")" >> $GITHUB_OUTPUT
       - run: echo "${{ steps.get-id.outputs.id_tag }}"
 
       - name: Execute Features
