@@ -35,3 +35,14 @@ jobs:
       - run: |
           echo "${{ steps.get-id.outputs.id_tag1 }}"
           echo "${{ steps.get-id.outputs.id_tag2 }}"
+
+      - name: test
+        id: checksecrets
+        run: |
+          if [ "TC" == "TC" ]; then
+            echo "secretspresent=NO" >> $GITHUB_OUTPUT
+          else
+            echo "secretspresent=YES" >> $GITHUB_OUTPUT
+          fi
+      - run: echo "${{ steps.checksecrets.outputs.secretspresent }}"
+
