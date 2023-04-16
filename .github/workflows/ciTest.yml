@@ -116,7 +116,7 @@ jobs:
         run: |
           echo "${BRANCH##*/}"
           if [ ${BRANCH##*/} = Im* ]; then
-           echo "secrets=${{ steps.get-id.outputs.branch_ref }}" >> $GITHUB_OUTPUT
+           echo "secrets=${BRANCH##*/}" >> $GITHUB_OUTPUT
           else
            echo "secrets=Empty" >> $GITHUB_OUTPUT
           fi
