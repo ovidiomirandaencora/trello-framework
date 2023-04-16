@@ -3,9 +3,9 @@ name: CI
 # Controls when the workflow will run.
 on:
   # When creating a new pull request to the 'develop' branch.
-  pull_request:
-    branches: [ develop ]
-    paths-ignore: [ '**.md' ]
+#  pull_request:
+#    branches: [ develop ]
+#    paths-ignore: [ '**.md' ]
 
   # Allows you to run this workflow manually from the Actions tab.
   workflow_dispatch:
@@ -135,8 +135,7 @@ jobs:
       - id: get-id
         run: echo "branch_ref=$(echo ${{ github.head_ref }} | cut -f2 -d"/")" >> $GITHUB_OUTPUT
       - run: |
-          if [[ ${{ steps.get-id.outputs.branch_ref }} =~ "TC" ]]
-          then
+          if [[ ${{ steps.get-id.outputs.branch_ref }} =~ "TC" ]]; then
               echo "id_tag1=${{ steps.get-id.outputs.branch_ref }}" >> $GITHUB_OUTPUT
           else
               echo "id_tag2=Empty" >> $GITHUB_OUTPUT
