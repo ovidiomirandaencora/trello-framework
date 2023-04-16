@@ -27,108 +27,16 @@ jobs:
       - id: get-id
         run: echo "branch_ref=$(echo ${{ github.head_ref }} | cut -f2 -d"/")" >> $GITHUB_OUTPUT
       - run: |
-          if [[ ${{ steps.get-id.outputs.branch_ref }} =~ "TC" ]]; then
-              echo "id_tag1=${{ steps.get-id.outputs.branch_ref }}" >> $GITHUB_OUTPUT
+          if [[ ${{ steps.get-id.outputs.branch_ref }} = Im* ]]; then
+              echo "secrets=${{ steps.get-id.outputs.branch_ref }}" >> $GITHUB_OUTPUT
           else
-              echo "id_tag2=Empty" >> $GITHUB_OUTPUT
+              echo "secrets=Empty" >> $GITHUB_OUTPUT
           fi
       - run: |
-          echo "${{ steps.get-id.outputs.id_tag1 }}"
-          echo "${{ steps.get-id.outputs.id_tag2 }}"
+          echo "${{ steps.get-id.outputs.secrets }}"
 
-#      - name: test
-#        id: checksecrets
-#        run: |
-#          if [ "TC" == "TC" ]; then
-#            echo "secretspresent=NO" >> $GITHUB_OUTPUT
-#          else
-#            echo "secretspresent=YES" >> $GITHUB_OUTPUT
-#          fi
-#      - run: echo "${{ steps.checksecrets.outputs.secretspresent }}"
-
-      - name: test2
-        id: check
-        run: |
-          echo "branch_ref=$(echo ${{ github.head_ref }} | cut -f2 -d"/")" >> $GITHUB_OUTPUT
-          if [ ${{ steps.get-id.outputs.branch_ref }} = "TC"* ]; then
-            echo "secrets=${{ steps.get-id.outputs.branch_ref }}" >> $GITHUB_OUTPUT
-          else
-            echo "secrets=Empty" >> $GITHUB_OUTPUT
-          fi
-      - run: echo "${{ steps.check.outputs.secrets }}"
-
-      - name: test3
-        id: check1
-        run: |
-          echo "branch_ref=$(echo ${{ github.head_ref }} | cut -f2 -d"/")" >> $GITHUB_OUTPUT
-          if [ "${{ steps.get-id.outputs.branch_ref }}" = Im* ]; then
-            echo "secrets=${{ steps.get-id.outputs.branch_ref }}" >> $GITHUB_OUTPUT
-          else
-            echo "secrets=Empty" >> $GITHUB_OUTPUT
-          fi
-      - run: echo "${{ steps.check1.outputs.secrets }}"
-
-      - name: test4
-        id: check2
-        run: |
-              input="Bus"
-              if [[ $input = Bu* ]]
-              then
-              echo "Start with B"
-              else
-              echo "No match"
-              fi
-              echo $input
-
-      - name: test4
-        id: check3
-        run: |
-          echo "branch_ref=$(echo ${{ github.head_ref }} | cut -f2 -d"/")" >> $GITHUB_OUTPUT
-          if [ ${{ steps.get-id.outputs.branch_ref }} = Im* ]; then
-            echo "secrets=${{ steps.get-id.outputs.branch_ref }}" >> $GITHUB_OUTPUT
-          else
-            echo "secrets=Empty" >> $GITHUB_OUTPUT
-          fi
-      - run: echo "${{ steps.check3.outputs.secrets }}"
-
-      - name: test5
-        id: check20
-          #input= "${{ github.head_ref }}" | cut -f2 -d"/"
-        run: |
-          input= "feature/Improve_CI_workflow" | cut -f2 -d"/"
-          if [[ $input = Im* ]]
-          then
-          echo "Start with B"
-          else
-          echo "No match"
-          fi
-          echo $input
-
-      - name: Split branch name-FUNCIONO
-        env:
-          BRANCH: ${{ github.head_ref }}
-        run: echo "${BRANCH##*/}"
-
-      - name: Split branch V1
-        id: split
-        env:
-          BRANCH: ${{ github.head_ref }}
-        run: |
-          echo "Test"
-          echo "${BRANCH##*/}"
-          newBranch=${BRANCH##*/}
-          echo $newBranch
-          if [[ $newBranch = Im* ]]; then
-           echo "secrets=$newBranch" >> $GITHUB_OUTPUT
-          else
-           echo "secrets=Empty" >> $GITHUB_OUTPUT
-          fi
-      - run: |
-            echo "Test Outputs"
-            echo "${{ steps.split.outputs.secrets }}"
-
-      - name: Split branch V2
-        id: split2
+      - name: Get id
+        id: get-id2
         env:
           BRANCH: ${{ github.head_ref }}
         run: |
@@ -140,4 +48,4 @@ jobs:
               fi
       - run: |
           echo "Test Outputs"
-          echo "${{ steps.split2.outputs.secrets }}"
+          echo "${{ steps.get-id2.outputs.secrets }}"
