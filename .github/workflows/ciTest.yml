@@ -103,3 +103,9 @@ jobs:
           echo "No match"
           fi
           echo $input
+
+      - name: Split branch name
+        env:
+          BRANCH: ${{ github.ref_name }}
+        id: split
+        run: echo "::set-output name=fragment::${BRANCH##*/}"
