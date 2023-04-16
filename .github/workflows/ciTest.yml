@@ -132,9 +132,9 @@ jobs:
         env:
           BRANCH: ${{ github.head_ref }}
         run: |
-              newBranch=${BRANCH##*/}
-              if [[ $newBranch = Im* ]]; then
-               echo "secrets=$newBranch" >> $GITHUB_OUTPUT
+              idTag=${BRANCH##*/}
+              if [[ idTag = Im* ]]; then
+               echo "secrets=idTag" >> $GITHUB_OUTPUT
               else
                echo "secrets=Empty" >> $GITHUB_OUTPUT
               fi
