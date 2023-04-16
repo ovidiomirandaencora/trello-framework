@@ -109,20 +109,17 @@ jobs:
           BRANCH: ${{ github.head_ref }}
         run: echo "${BRANCH##*/}"
 
-#      - name: Split branch V1
-#        id: split
-#        env:
-#          BRANCH: ${{ github.head_ref }}
-#        run: |
-#          echo "${BRANCH##*/}"
-#          if [ ${BRANCH##*/} = Im* ]; then
-#           echo "secrets=${BRANCH##*/}" >> $GITHUB_OUTPUT
-#          else
-#           echo "secrets=Empty" >> $GITHUB_OUTPUT
-#          fi
-#          - run: echo "${{ steps.split.outputs.secrets }}"
-      - name: Extract branch name
-        shell: bash
-        run: echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >>$GITHUB_OUTPUT
-        id: extract_branch
-      - run: echo "${{ steps.extract_branch.outputs.branch }}"
+      - name: Split branch V1
+        id: split
+        env:
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          echo "${BRANCH##*/}"
+          newBranch = "${BRANCH##*/}"
+          echo $newBranch
+          if [ $newBranch = Im* ]; then
+           echo "secrets=$newBranch" >> $GITHUB_OUTPUT
+          else
+           echo "secrets=Empty" >> $GITHUB_OUTPUT
+          fi
+          - run: echo "${{ steps.split.outputs.secrets }}"
