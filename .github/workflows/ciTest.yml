@@ -107,11 +107,17 @@ jobs:
       - name: Split branch name-FUNCIONO
         env:
           BRANCH: ${{ github.head_ref }}
-        id: split
         run: echo "${BRANCH##*/}"
 
-      - name: Split 2
-        env:
-          BRANCH: ${{ github.head_ref##*/ }}
+      - name: Split branch V1
         id: split
-        run: echo "${BRANCH}"
+        env:
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          echo "${BRANCH##*/}"
+          if [ ${BRANCH##*/} = Im* ]; then
+           echo "secrets=${{ steps.get-id.outputs.branch_ref }}" >> $GITHUB_OUTPUT
+          else
+           echo "secrets=Empty" >> $GITHUB_OUTPUT
+          fi
+          - run: echo "${{ steps.split.outputs.secrets }}"
