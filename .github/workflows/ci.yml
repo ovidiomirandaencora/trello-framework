@@ -135,7 +135,7 @@ jobs:
       - id: get-id
         run: echo "branch_ref=$(echo ${{ github.head_ref }} | cut -f2 -d"/")" >> $GITHUB_OUTPUT
       - run: |
-          if [${{ steps.get-id.outputs.branch_ref }} == *"TC-"* ]
+          if [[ ${{ steps.get-id.outputs.branch_ref }} == *"TC-"* ]]
           then
               echo "id_tag=${{ steps.get-id.outputs.branch_ref }}" >> $GITHUB_OUTPUT
           else
