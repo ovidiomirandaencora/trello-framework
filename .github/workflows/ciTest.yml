@@ -83,7 +83,7 @@ jobs:
       - name: test4
         id: check3
         run: |
-          input= (${{ github.head_ref }} | cut -f2 -d"/")
+          input= "(${{ github.head_ref }} | cut -f2 -d"/")"
           echo input
           echo "branch_ref=$(echo ${{ github.head_ref }} | cut -f2 -d"/")" >> $GITHUB_OUTPUT
           if [ "${{ steps.get-id.outputs.branch_ref }}" = Im* ]; then
