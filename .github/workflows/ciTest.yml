@@ -121,4 +121,4 @@ jobs:
           else
            echo "secrets=Empty" >> $GITHUB_OUTPUT
           fi
-          echo "${{ steps.split.outputs.secrets }}"
+      - run: echo "${{ steps.split.outputs.secrets }}"
