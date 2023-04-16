@@ -46,3 +46,12 @@ jobs:
           fi
       - run: echo "${{ steps.checksecrets.outputs.secretspresent }}"
 
+      - name: test
+        id: check
+        run: |
+          if [ "TC" == "TC" ]; then
+            echo "secrets=NO" >> $GITHUB_OUTPUT
+          else
+            echo "secrets=YES" >> $GITHUB_OUTPUT
+          fi
+      - run: echo "${{ steps.check.outputs.secrets }}"
