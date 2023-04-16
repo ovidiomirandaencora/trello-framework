@@ -114,6 +114,7 @@ jobs:
         env:
           BRANCH: ${{ github.head_ref }}
         run: |
+          echo "Test"
           echo "${BRANCH##*/}"
           newBranch = "${BRANCH##*/}"
           echo $newBranch
