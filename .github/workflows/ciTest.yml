@@ -50,7 +50,7 @@ jobs:
         id: check
         run: |
           echo "branch_ref=$(echo ${{ github.head_ref }} | cut -f2 -d"/")" >> $GITHUB_OUTPUT
-          if [ "TC" == "TC" ]; then
+          if [ ${{ steps.get-id.outputs.branch_ref }} == "TC" ]; then
             echo "secrets=NO" >> $GITHUB_OUTPUT
           else
             echo "secrets=YES" >> $GITHUB_OUTPUT
