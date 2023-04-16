@@ -118,8 +118,8 @@ jobs:
           echo "${BRANCH##*/}"
           newBranch=${BRANCH##*/}
           echo $newBranch
-          if [ "${BRANCH##*/}" = Im* ]; then
-           echo "secrets="${BRANCH##*/}"" >> $GITHUB_OUTPUT
+          if [ $newBranch = Im* ]; then
+           echo "secrets=$newBranch" >> $GITHUB_OUTPUT
           else
            echo "secrets=Empty" >> $GITHUB_OUTPUT
           fi
