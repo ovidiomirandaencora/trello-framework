@@ -126,3 +126,18 @@ jobs:
       - run: |
             echo "Test Outputs"
             echo "${{ steps.split.outputs.secrets }}"
+
+      - name: Split branch V2
+        id: split2
+        env:
+          BRANCH: ${{ github.head_ref }}
+        run: |
+              newBranch=${BRANCH##*/}
+              if [[ $newBranch = Im* ]]; then
+               echo "secrets=$newBranch" >> $GITHUB_OUTPUT
+              else
+               echo "secrets=Empty" >> $GITHUB_OUTPUT
+              fi
+      - run: |
+          echo "Test Outputs"
+          echo "${{ steps.split2.outputs.secrets }}"
