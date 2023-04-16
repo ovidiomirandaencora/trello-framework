@@ -106,6 +106,6 @@ jobs:
 
       - name: Split branch name
         env:
-          BRANCH: ${{ github.ref_name }}
+          BRANCH: ${{ github.head_ref }}
         id: split
         run: echo "::set-output name=fragment::${BRANCH##*/}"
