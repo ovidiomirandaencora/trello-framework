@@ -67,3 +67,15 @@ jobs:
             echo "secrets=Empty" >> $GITHUB_OUTPUT
           fi
       - run: echo "${{ steps.check1.outputs.secrets }}"
+
+      - name: test4
+        id: check2
+        run: |
+              input="xBus"
+              if [[ $input = B* ]]
+              then
+              echo "Start with B"
+              else
+              echo "No match"
+              fi
+              echo input
