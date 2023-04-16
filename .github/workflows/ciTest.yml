@@ -92,7 +92,7 @@ jobs:
       - run: echo "${{ steps.check3.outputs.secrets }}"
 
       - name: test5
-        id: check2
+        id: check20
         run: |
           input= echo "branch_ref=$(echo ${{ github.head_ref }} | cut -f2 -d"/")"
           if [[ $input = Bu* ]]
