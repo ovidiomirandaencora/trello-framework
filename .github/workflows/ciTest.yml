@@ -84,7 +84,7 @@ jobs:
         id: check3
         run: |
           echo "branch_ref=$(echo ${{ github.head_ref }} | cut -f2 -d"/")" >> $GITHUB_OUTPUT
-          if [ $branch_ref = Im* ]; then
+          if [ branch_ref = Im* ]; then
             echo "secrets=${{ steps.get-id.outputs.branch_ref }}" >> $GITHUB_OUTPUT
           else
             echo "secrets=Empty" >> $GITHUB_OUTPUT
