@@ -132,7 +132,7 @@ jobs:
         env:
           BRANCH: ${{ github.head_ref }}
         run: |
-              newBranch=${BRANCH##*/}
+              newBranch=${${{ github.head_ref }}##*/}
               if [[ $newBranch = Im* ]]; then
                echo "secrets=$newBranch" >> $GITHUB_OUTPUT
               else
