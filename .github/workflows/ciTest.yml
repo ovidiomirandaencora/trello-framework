@@ -72,7 +72,7 @@ jobs:
         id: check2
         run: |
               input="Bus"
-              if [[ $input = B* ]]
+              if [[ $input = Bu* ]]
               then
               echo "Start with B"
               else
