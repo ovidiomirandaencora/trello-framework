@@ -78,4 +78,4 @@ jobs:
               else
               echo "No match"
               fi
-              echo input
+              echo $input
