@@ -93,8 +93,9 @@ jobs:
 
       - name: test5
         id: check20
+          #input= "${{ github.head_ref }}" | cut -f2 -d"/"
         run: |
-          input= "${{ github.head_ref }}" | cut -f2 -d"/"
+          input= "feature/Improve_CI_workflow" | cut -f2 -d"/"
           if [[ $input = Im* ]]
           then
           echo "Start with B"
