@@ -58,7 +58,7 @@ jobs:
       - run: echo "${{ steps.check.outputs.secrets }}"
 
       - name: test3
-        id: check
+        id: check1
         run: |
           echo "branch_ref=$(echo ${{ github.head_ref }} | cut -f2 -d"/")" >> $GITHUB_OUTPUT
           if [ "TC-000010" = "TC"* ]; then
@@ -66,4 +66,4 @@ jobs:
           else
             echo "secrets=Empty" >> $GITHUB_OUTPUT
           fi
-      - run: echo "${{ steps.check.outputs.secrets }}"
+      - run: echo "${{ steps.check1.outputs.secrets }}"
