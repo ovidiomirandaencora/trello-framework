@@ -108,4 +108,4 @@ jobs:
         env:
           BRANCH: ${{ github.head_ref }}
         id: split
-        run: echo "::set-output name=fragment::${BRANCH##*/}"
+        run: echo "${BRANCH##*/}"
