@@ -49,6 +49,7 @@ jobs:
       - name: test
         id: check
         run: |
+          echo "branch_ref=$(echo ${{ github.head_ref }} | cut -f2 -d"/")" >> $GITHUB_OUTPUT
           if [ "TC" == "TC" ]; then
             echo "secrets=NO" >> $GITHUB_OUTPUT
           else
