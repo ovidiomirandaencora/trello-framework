@@ -79,3 +79,15 @@ jobs:
               echo "No match"
               fi
               echo $input
+
+      - name: test4
+        id: check3
+        run: |
+          input= ${{ github.head_ref }} | cut -f2 -d"/"
+          echo $input
+          if [ "${{ steps.get-id.outputs.branch_ref }}" = Im* ]; then
+            echo "secrets=${{ steps.get-id.outputs.branch_ref }}" >> $GITHUB_OUTPUT
+          else
+            echo "secrets=Empty" >> $GITHUB_OUTPUT
+          fi
+      - run: echo "${{ steps.check3.outputs.secrets }}"
