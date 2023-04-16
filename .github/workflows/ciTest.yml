@@ -36,23 +36,23 @@ jobs:
           echo "${{ steps.get-id.outputs.id_tag1 }}"
           echo "${{ steps.get-id.outputs.id_tag2 }}"
 
-      - name: test
-        id: checksecrets
-        run: |
-          if [ "TC" == "TC" ]; then
-            echo "secretspresent=NO" >> $GITHUB_OUTPUT
-          else
-            echo "secretspresent=YES" >> $GITHUB_OUTPUT
-          fi
-      - run: echo "${{ steps.checksecrets.outputs.secretspresent }}"
+#      - name: test
+#        id: checksecrets
+#        run: |
+#          if [ "TC" == "TC" ]; then
+#            echo "secretspresent=NO" >> $GITHUB_OUTPUT
+#          else
+#            echo "secretspresent=YES" >> $GITHUB_OUTPUT
+#          fi
+#      - run: echo "${{ steps.checksecrets.outputs.secretspresent }}"
 
-      - name: test
+      - name: test2
         id: check
         run: |
           echo "branch_ref=$(echo ${{ github.head_ref }} | cut -f2 -d"/")" >> $GITHUB_OUTPUT
           if [ ${{ steps.get-id.outputs.branch_ref }} = "TC"* ]; then
-            echo "secrets=NO" >> $GITHUB_OUTPUT
+            echo "secrets=${{ steps.get-id.outputs.branch_ref }}" >> $GITHUB_OUTPUT
           else
-            echo "secrets=YES" >> $GITHUB_OUTPUT
+            echo "secrets=Empty" >> $GITHUB_OUTPUT
           fi
       - run: echo "${{ steps.check.outputs.secrets }}"
