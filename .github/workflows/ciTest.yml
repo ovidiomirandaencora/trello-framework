@@ -104,8 +104,14 @@ jobs:
           fi
           echo $input
 
-      - name: Split branch name
+      - name: Split branch name-FUNCIONO
         env:
           BRANCH: ${{ github.head_ref }}
         id: split
         run: echo "${BRANCH##*/}"
+
+      - name: Split 2
+        env:
+          BRANCH: ${{ github.head_ref##*/ }}
+        id: split
+        run: echo "${BRANCH}"
