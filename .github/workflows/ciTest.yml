@@ -94,7 +94,7 @@ jobs:
       - name: test5
         id: check20
         run: |
-          input= ${{ github.head_ref }} | cut -f2 -d"/"
+          input= "${{ github.head_ref }}" | cut -f2 -d"/"
           if [[ $input = Im* ]]
           then
           echo "Start with B"
