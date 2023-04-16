@@ -139,7 +139,7 @@ jobs:
           then
               echo "id_tag=${{ steps.get-id.outputs.branch_ref }}" >> $GITHUB_OUTPUT
           else
-              echo "id_tag="Empty"" >> $GITHUB_OUTPUT
+              echo "id_tag=${Empty} >> $GITHUB_OUTPUT
           fi
       - run: echo "${{ steps.get-id.outputs.id_tag }}"
 
