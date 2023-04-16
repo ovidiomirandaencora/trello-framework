@@ -116,8 +116,8 @@ jobs:
         run: |
           echo "Test"
           echo "${BRANCH##*/}"
-          newBranch = echo "${BRANCH##*/}"
-          echo $newBranch
+#          newBranch = echo "${BRANCH##*/}"
+#          echo $newBranch
           if [ "${BRANCH##*/}" = Im* ]; then
            echo "secrets="${BRANCH##*/}"" >> $GITHUB_OUTPUT
           else
