@@ -71,7 +71,7 @@ jobs:
       - name: test4
         id: check2
         run: |
-              input="xBus"
+              input="Bus"
               if [[ $input = B* ]]
               then
               echo "Start with B"
