@@ -94,7 +94,7 @@ jobs:
       - name: test5
         id: check20
         run: |
-          input= echo "branch_ref=$(echo ${{ github.head_ref }} | cut -f2 -d"/")"
+          input= $(echo ${{ github.head_ref }} | cut -f2 -d"/")"
           if [[ $input = Bu* ]]
           then
           echo "Start with B"
