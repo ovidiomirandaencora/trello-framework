@@ -38,3 +38,18 @@ jobs:
       - run: |
           echo "Test Outputs"
           echo "${{ steps.get-id.outputs.tag }}"
+
+      - name: Get id
+        id: get-id2
+        env:
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          idTag=${BRANCH##*/}
+          if [[ $idTag = Im* ]]; then
+           echo "tag=@$idTag" >> $GITHUB_OUTPUT
+          else
+           echo "tag=${{ vars.SCENARIO_TAG }}" >> $GITHUB_OUTPUT
+          fi
+      - run: |
+          echo "Test Outputs"
+          echo "${{ steps.get-id2.outputs.tag }}"
