@@ -22,9 +22,9 @@ jobs:
   build:
     # The type of runner that the job will run on.
     runs-on: ubuntu-latest
-    # Execute when a specific label('review_start') is added to Pull request.
-    if: contains(github.event.pull_request.labels.*.name, 'review_start')
-
+    # Execute when a specific label('review_start') is added to Pull request
+    # or is executed manually.
+    if: contains(github.event.pull_request.labels.*.name, 'review_start') || github.event_name == 'workflow_dispatch'
     steps:
       # Cloning you repository to the runner.
       - name: Checkout code
@@ -132,13 +132,28 @@ jobs:
         with:
           gradle-version: 6.9
 
+      # Get the test case tag from the branch name.
+      # Eg.
+      # feature/TC-00004 -> "@TC-00004"
+      # feature/feature/Improve_CI -> "@Regression" -  The value set in variables on GitHub.
+      - id: get-id
+        env:
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          idTag=${BRANCH##*/}
+          if [[ $idTag = TC* ]]; then
+           echo "tag=@$idTag" >> $GITHUB_OUTPUT
+          else
+           echo "tag=${{ vars.SCENARIO_TAG }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Execute Features
         id: execute-features
         # Configuration variables in your repository.
         # Settings -> Secrets and variables -> Actions -> Secrets(secrets) or Variables(vars).
         run: |
           gradle executeFeatures \
-              -Dcucumber.filter.tags="${{ github.event.inputs.scenarioTag || '@Regression' }}" \
+              -Dcucumber.filter.tags="${{ github.event.inputs.scenarioTag || steps.get-id.outputs.tag }}" \
               -Pbrowser="CHROME_HEADLESS" \
               -PbaseUrl="${{ vars.BASE_URL }}" \
               -Puser="${{ vars.USER_EMAIL }}" -Ppassword="${{ secrets.USER_PASSWORD }}" \
@@ -147,7 +162,7 @@ jobs:
 
       # Re-execute if there are failed scenarios using the 'rerun.txt' file.
       - name: Re-Execute Features
-        if: ${{ steps.execute-features.outcome != 'success' }}
+        if: ${{ failure() && steps.execute-features.conclusion == 'failure' }}
         run: |
           gradle reExecuteFeatures \
               -Pbrowser="CHROME_HEADLESS" \
