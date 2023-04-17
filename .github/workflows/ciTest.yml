@@ -24,24 +24,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-#      - id: get-id
-#        run: echo "branch_ref=$(echo ${{ github.head_ref }} | cut -f2 -d"/")" >> $GITHUB_OUTPUT
-#      - run: |
-#          if [[ ${{ steps.get-id.outputs.branch_ref }} = Im* ]]; then
-#              echo "secrets=${{ steps.get-id.outputs.branch_ref }}" >> $GITHUB_OUTPUT
-#          else
-#              echo "secrets=Empty" >> $GITHUB_OUTPUT
-#          fi
-#      - run: |
-#          echo "${{ steps.get-id.outputs.secrets }}"
-
       - name: Get id
         id: get-id
         env:
           BRANCH: ${{ github.head_ref }}
         run: |
               idTag=${BRANCH##*/}
-              if [[ $idTag = Im* ]]; then
+              if [[ $idTag = TC* ]]; then
                echo "tag=$idTag" >> $GITHUB_OUTPUT
               else
                echo "tag=@Regression" >> $GITHUB_OUTPUT
