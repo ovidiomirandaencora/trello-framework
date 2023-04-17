@@ -3,9 +3,9 @@ name: CI
 # Controls when the workflow will run.
 on:
   # When creating a new pull request to the 'develop' branch.
-#  pull_request:
-#    branches: [ develop ]
-#    paths-ignore: [ '**.md' ]
+  pull_request:
+    branches: [ develop ]
+    paths-ignore: [ '**.md' ]
 
   # Allows you to run this workflow manually from the Actions tab.
   workflow_dispatch:
@@ -132,17 +132,20 @@ jobs:
         with:
           gradle-version: 6.9
 
+      # Get the test case tag from the branch name.
+      # Eg.
+      # feature/TC-00004 -> "@TC-00004"
+      # feature/feature/Improve_CI -> "@Regression" -  The value set in variables on GitHub.
       - id: get-id
-        run: echo "branch_ref=$(echo ${{ github.head_ref }} | cut -f2 -d"/")" >> $GITHUB_OUTPUT
-      - run: |
-          if [[ ${{ steps.get-id.outputs.branch_ref }} =~ "TC" ]]; then
-              echo "id_tag1=${{ steps.get-id.outputs.branch_ref }}" >> $GITHUB_OUTPUT
+        env:
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          idTag=${BRANCH##*/}
+          if [[ $idTag = TC* ]]; then
+           echo "tag=@$idTag" >> $GITHUB_OUTPUT
           else
-              echo "id_tag2=Empty" >> $GITHUB_OUTPUT
+           echo "tag=${{ vars.SCENARIO_TAG }}" >> $GITHUB_OUTPUT
           fi
-      - run: |
-          echo "${{ steps.get-id.outputs.id_tag1 }}"
-          echo "${{ steps.get-id.outputs.id_tag2 }}"
 
       - name: Execute Features
         id: execute-features
@@ -150,7 +153,7 @@ jobs:
         # Settings -> Secrets and variables -> Actions -> Secrets(secrets) or Variables(vars).
         run: |
           gradle executeFeatures \
-              -Dcucumber.filter.tags="${{ github.event.inputs.scenarioTag || '@Regression' }}" \
+              -Dcucumber.filter.tags="${{ github.event.inputs.scenarioTag || steps.get-id.outputs.tag }}" \
               -Pbrowser="CHROME_HEADLESS" \
               -PbaseUrl="${{ vars.BASE_URL }}" \
               -Puser="${{ vars.USER_EMAIL }}" -Ppassword="${{ secrets.USER_PASSWORD }}" \
