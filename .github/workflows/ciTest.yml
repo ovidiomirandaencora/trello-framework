@@ -45,6 +45,7 @@ jobs:
           BRANCH: ${{ github.head_ref }}
         run: |
           idTag=${BRANCH##*/}
+          # Eg.feature/TC-00004
           if [[ $idTag = Im* ]]; then
            echo "tag=@$idTag" >> $GITHUB_OUTPUT
           else
