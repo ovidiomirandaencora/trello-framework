@@ -33,7 +33,7 @@ jobs:
               if [[ $idTag = TC* ]]; then
                echo "tag=$idTag" >> $GITHUB_OUTPUT
               else
-               echo "tag=@Regression" >> $GITHUB_OUTPUT
+               echo "tag=${{ vars.SCENARIO_TAG }}" >> $GITHUB_OUTPUT
               fi
       - run: |
           echo "Test Outputs"
