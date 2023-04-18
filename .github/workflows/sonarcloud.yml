@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - develop
-#  pull_request:
-#    types: [opened, synchronize, reopened]
+  pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
   build:
     name: Build and analyze
@@ -25,6 +25,7 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
+      # Fixing the 'Permission Denied'.
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
