@@ -1,5 +1,9 @@
 # trello-framework
-[![Quality Gate](https://sonarcloud.io/project/overview?id=ovidiomirandaencora_trello-framework&metric=alert_status)](https://sonarcloud.io/summary/overall?id=ovidiomirandaencora_trello-framework)  
+[![CI](https://github.com/ovidiomirandaencora/trello-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/ovidiomirandaencora/trello-framework/actions/workflows/ci.yml)  
+[![Execution](https://github.com/ovidiomirandaencora/trello-framework/actions/workflows/execution.yml/badge.svg)](https://github.com/ovidiomirandaencora/trello-framework/actions/workflows/execution.yml)  
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ovidiomirandaencora_trello-framework&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=ovidiomirandaencora_trello-framework)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ovidiomirandaencora_trello-framework&metric=bugs)](https://sonarcloud.io/summary/new_code?id=ovidiomirandaencora_trello-framework)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ovidiomirandaencora_trello-framework&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=ovidiomirandaencora_trello-framework)    
 [View Allure Report](https://ovidiomirandaencora.github.io/trello-framework/)
 # Execute tests
 ### Command line
