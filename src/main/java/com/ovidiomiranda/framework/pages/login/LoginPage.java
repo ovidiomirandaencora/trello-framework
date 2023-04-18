@@ -55,7 +55,7 @@ public class LoginPage extends BasePage {
    */
   public void setWebDriverUrl(final String url) {
     DriverManager.getInstance().getDriver().get(url);
-    LOGGER.info(String.format("Set URL: %s", url));
+    LOGGER.info("Set URL: {}", url);
   }
 
   /**
