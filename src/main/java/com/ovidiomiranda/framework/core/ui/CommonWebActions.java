@@ -1,6 +1,5 @@
 package com.ovidiomiranda.framework.core.ui;
 
-import static java.lang.String.format;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
 import com.ovidiomiranda.framework.core.ui.driver.DriverManager;
@@ -45,8 +44,8 @@ public final class CommonWebActions {
   public static void enterTextField(final WebElement element, final String text) {
     waitVisibleOf(element);
     element.sendKeys(text);
-    LOGGER.info(format("Text set: '%s' on locator: '%s' text field.", text,
-        getLocatorFromWebElement(element)));
+    LOGGER.info("Text set: '{}' on locator: '{}' text field.", text,
+        getLocatorFromWebElement(element));
   }
 
   /**
@@ -100,7 +99,7 @@ public final class CommonWebActions {
     waitVisibleOf(element);
     waitElementToBeClickable(element);
     element.click();
-    LOGGER.info(format("Click on locator: '%s' button.", getLocatorFromWebElement(element)));
+    LOGGER.info("Click on locator: '{}' button.", getLocatorFromWebElement(element));
   }
 
   /**
