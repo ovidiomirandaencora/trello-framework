@@ -135,7 +135,7 @@ jobs:
       # Get the test case tag from the branch name.
       # Eg.
       # feature/TC-00004 -> "@TC-00004"
-      # feature/feature/Improve_CI -> "@Regression" -  The value set in variables on GitHub.
+      # feature/Improve_CI -> "@Regression" -  The value set in variables on GitHub.
       - id: get-id
         env:
           BRANCH: ${{ github.head_ref }}
