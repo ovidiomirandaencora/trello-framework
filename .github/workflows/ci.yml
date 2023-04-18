@@ -135,7 +135,7 @@ jobs:
       # Get the test case tag from the branch name.
       # Eg.
       # feature/TC-00004 -> "@TC-00004"
-      # feature/feature/Improve_CI -> "@Regression" -  The value set in variables on GitHub.
+      # feature/Improve_CI -> "@Regression" -  The value set in variables on GitHub.
       - id: get-id
         env:
           BRANCH: ${{ github.head_ref }}
@@ -204,3 +204,9 @@ jobs:
           path: "./build/reports/tests/test/xml/TEST-*.xml"
           reporter: java-junit
           fail-on-error: false
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
