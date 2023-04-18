@@ -219,6 +219,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
 
+      # Fixing the 'Permission Denied'.
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
