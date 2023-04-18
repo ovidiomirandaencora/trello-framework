@@ -38,12 +38,8 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
 
       - name: Build and analyze
-        with:
-          args: >
-            -Dsonar.projectKey=ovidiomirandaencora_trello-framework
-            -Dsonar.organization=ovidiomirandaencora
-            -Dsonar.host.url=https://sonarcloud.io
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
         run: ./gradlew build sonarqube --info
