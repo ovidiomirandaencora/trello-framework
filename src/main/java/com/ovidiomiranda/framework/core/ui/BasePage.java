@@ -18,7 +18,7 @@ public abstract class BasePage {
   /**
    * Method for Base for declared DriverManager.
    */
-  public BasePage() {
+  protected BasePage() {
     driver = DriverManager.getInstance().getDriver();
     wait = DriverManager.getInstance().getWebDriverWait();
     PageFactory.initElements(driver, this);

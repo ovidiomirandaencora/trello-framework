@@ -31,9 +31,9 @@ public class RestAssuredRequestFilter implements Filter {
     final String responseBody = response.getBody().asPrettyString();
 
     final String requestMessage = format(
-        "\n======== Request ========\nMethod: %s\nURL: %s\nBody:\n%s", requestMethod, requestUrl,
+        "%n======== Request ========%nMethod: %s%nURL: %s%nBody:%n%s", requestMethod, requestUrl,
         requestBody);
-    final String responseMessage = format("\n======== Response ========\nStatus: %s\nBody:\n%s",
+    final String responseMessage = format("%n======== Response ========%nStatus: %s%nBody:%n%s",
         responseStatus, responseBody);
     final String message = requestMessage.concat(responseMessage);
     if (responseStatus != 200) {
