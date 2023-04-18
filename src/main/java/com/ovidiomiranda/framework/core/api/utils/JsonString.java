@@ -26,8 +26,8 @@ public class JsonString {
     String json = null;
     try {
       json = new ObjectMapper().writeValueAsString(map);
-    } catch (JsonProcessingException e) {
-      LOGGER.error(e);
+    } catch (JsonProcessingException error) {
+      LOGGER.error(error);
     }
     return json;
   }
@@ -44,8 +44,8 @@ public class JsonString {
     try {
       Object jsonObject = mapper.readValue(json, Object.class);
       prettyJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject);
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (IOException error) {
+      LOGGER.error(error);
     }
     return prettyJson;
   }

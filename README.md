@@ -1,4 +1,6 @@
 # trello-framework
+[![Quality Gate](https://sonarcloud.io/project/overview?id=ovidiomirandaencora_trello-framework&metric=alert_status)](https://sonarcloud.io/summary/overall?id=ovidiomirandaencora_trello-framework)  
+[View Allure Report](https://ovidiomirandaencora.github.io/trello-framework/)
 # Execute tests
 ### Command line
 ```shell
