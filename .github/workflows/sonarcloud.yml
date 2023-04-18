@@ -18,6 +18,7 @@ jobs:
         with:
           java-version: 11
           distribution: 'zulu' # Alternative distribution options are available
+
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
@@ -35,7 +36,13 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
+
       - name: Build and analyze
+        with:
+          args: >
+            -Dsonar.projectKey=ovidiomirandaencora_trello-framework
+            -Dsonar.organization=ovidiomirandaencora
+            -Dsonar.host.url=https://sonarcloud.io
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
