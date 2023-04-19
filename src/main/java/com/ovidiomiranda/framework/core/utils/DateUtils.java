@@ -9,7 +9,16 @@ import java.util.Date;
  *
  * @author Ovidio Miranda
  */
-public abstract class DateUtils {
+public final class DateUtils {
+
+  public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+
+  /**
+   * Default Private Constructor.
+   */
+  private DateUtils() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
 
   /**
    * Gets the ISO 8601 date format(yyyy-MM-dd). For example: 2022-02-21.
@@ -18,7 +27,7 @@ public abstract class DateUtils {
    * @return String with the current date.
    */
   public static String getDateWithIso8601Format(final Date date) {
-    return convertDateToString(date, getDateFormat("yyyy-MM-dd"));
+    return convertDateToString(date, getDateFormat(DEFAULT_DATE_FORMAT));
   }
 
   /**

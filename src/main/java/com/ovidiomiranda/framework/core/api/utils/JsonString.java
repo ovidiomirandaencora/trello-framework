@@ -17,6 +17,13 @@ public class JsonString {
   private static final Logger LOGGER = LogManager.getLogger(JsonString.class);
 
   /**
+   * Default Private Constructor.
+   */
+  private JsonString() {
+    throw new UnsupportedOperationException("JsonString class and cannot be instantiated");
+  }
+
+  /**
    * Converts a map to a JSON String.
    *
    * @param map the map values.
