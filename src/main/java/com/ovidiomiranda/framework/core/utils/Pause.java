@@ -8,9 +8,16 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Ovidio Miranda
  */
-public class Pause {
+public final class Pause {
 
   private static final Logger LOGGER = LogManager.getLogger(Pause.class);
+
+  /**
+   * Default Private Constructor.
+   */
+  private Pause() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
 
   /**
    * Sleeps for the specified time.

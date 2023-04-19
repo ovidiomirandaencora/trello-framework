@@ -5,7 +5,14 @@ package com.ovidiomiranda.framework.core.utils;
  *
  * @author Ovidio Miranda
  */
-public abstract class Messages {
+public final class Messages {
+
+  /**
+   * Default Private Constructor.
+   */
+  private Messages() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
 
   /**
    * Displays the message : "Expected is:{Expect} But Actual is :{actual}".

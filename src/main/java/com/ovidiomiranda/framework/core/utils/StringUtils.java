@@ -8,7 +8,14 @@ import static com.ovidiomiranda.framework.core.utils.DateUtils.getCurrentDateWit
  *
  * @author Ovidio Miranda
  */
-public class StringUtils {
+public final class StringUtils {
+
+  /**
+   * Default Private Constructor.
+   */
+  private StringUtils() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
 
   /**
    * Deletes the last character of a given string.

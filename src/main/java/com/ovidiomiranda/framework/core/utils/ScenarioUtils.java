@@ -10,7 +10,14 @@ import io.cucumber.java.Scenario;
  *
  * @author Ovidio Miranda
  */
-public class ScenarioUtils {
+public final class ScenarioUtils {
+
+  /**
+   * Default Private Constructor.
+   */
+  private ScenarioUtils() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
 
   /**
    * Gets the current Scenario TC example TC-00003.
