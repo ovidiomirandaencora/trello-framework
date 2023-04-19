@@ -14,7 +14,7 @@ public final class StringUtils {
    * Default Private Constructor.
    */
   private StringUtils() {
-    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    throw new UnsupportedOperationException("StringUtils class and cannot be instantiated");
   }
 
   /**

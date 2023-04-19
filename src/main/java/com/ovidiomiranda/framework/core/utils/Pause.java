@@ -16,7 +16,7 @@ public final class Pause {
    * Default Private Constructor.
    */
   private Pause() {
-    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    throw new UnsupportedOperationException("Pause class and cannot be instantiated");
   }
 
   /**

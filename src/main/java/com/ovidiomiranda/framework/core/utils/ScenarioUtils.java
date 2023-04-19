@@ -16,7 +16,7 @@ public final class ScenarioUtils {
    * Default Private Constructor.
    */
   private ScenarioUtils() {
-    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    throw new UnsupportedOperationException("ScenarioUtils class and cannot be instantiated");
   }
 
   /**

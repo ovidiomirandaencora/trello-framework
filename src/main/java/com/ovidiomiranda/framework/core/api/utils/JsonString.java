@@ -20,7 +20,7 @@ public class JsonString {
    * Default Private Constructor.
    */
   private JsonString() {
-    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    throw new UnsupportedOperationException("JsonString class and cannot be instantiated");
   }
 
   /**

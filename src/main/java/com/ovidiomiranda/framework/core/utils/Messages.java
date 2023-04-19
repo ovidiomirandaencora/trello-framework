@@ -11,7 +11,7 @@ public final class Messages {
    * Default Private Constructor.
    */
   private Messages() {
-    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    throw new UnsupportedOperationException("Messages class and cannot be instantiated");
   }
 
   /**
