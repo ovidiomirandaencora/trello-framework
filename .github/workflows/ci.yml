@@ -102,8 +102,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install and setup latest Google Chrome
-        uses: browser-actions/setup-chrome@v1
+      - name: Google Chrome
+      - run: google-chrome --version
 
       # Get the test case tag from the branch name.
       # Eg.
