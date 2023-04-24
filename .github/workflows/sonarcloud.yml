@@ -1,5 +1,6 @@
 name: SonarCloud
 on:
+  # Only trigger, when the build workflow succeeded.
   workflow_run:
     workflows: [ "CI" ]
 
