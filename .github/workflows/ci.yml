@@ -117,7 +117,8 @@ jobs:
           else
            echo "tag=${{ vars.SCENARIO_TAG }}" >> $GITHUB_OUTPUT
           fi
-
+      # SCENARIO_TAG -> @Regression  and not @Web
+      # Due to problems installing Chrome in a container.
       - name: Execute Features
         id: execute-features
         # Configuration variables in your repository.
