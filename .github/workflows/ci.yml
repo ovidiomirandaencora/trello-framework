@@ -168,11 +168,12 @@ jobs:
         run: gradle test
 
       # Generate report in GitHub action summary.
-      - name: Unit test reporter
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: unit-tests
-          path: "./build/reports/tests/test/xml/TEST-*.xml"
-          reporter: java-junit
-          fail-on-error: false
+      # This is not working with docker container.
+#      - name: Unit test reporter
+#        uses: dorny/test-reporter@v1
+#        if: always()
+#        with:
+#          name: unit-tests
+#          path: "./build/reports/tests/test/xml/TEST-*.xml"
+#          reporter: java-junit
+#          fail-on-error: false
