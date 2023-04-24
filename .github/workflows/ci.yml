@@ -112,6 +112,7 @@ jobs:
       # feature/TC-00004 -> "@TC-00004"
       # feature/Improve_CI -> "@Regression" -  The value set in variables on GitHub.
       - id: get-id
+        if: always()
         env:
           BRANCH: ${{ github.head_ref }}
         run: |
