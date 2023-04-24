@@ -103,9 +103,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install and setup latest Google Chrome
-        run: |
-          chmod +x ./scripts/InstallChrome.sh
-          ./scripts/InstallChrome.sh
+        uses: browser-actions/setup-chrome@v1
 
       # Get the test case tag from the branch name.
       # Eg.
