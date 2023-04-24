@@ -35,8 +35,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build project
-      - run: gradle assemble
-      - run: gradle assemble testClasses
+        run: gradle assemble
+
+      - name: Build testClasses
+        run: gradle assemble testClasses
 
   # Checkstyle and PMD.
   static-analysis:
@@ -53,7 +55,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Execute Checkstyle and PMD
-      - run: gradle staticAnalysis
+        run: gradle staticAnalysis
       - uses: actions/upload-artifact@v3
         with:
           name: staticAnalysisReports${{ github.run_id }}
@@ -75,7 +77,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Execute Javadoc
-      - run: gradle javadoc
+        run: gradle javadoc
       - uses: actions/upload-artifact@v3
         with:
           name: javadoc${{ github.run_id }}
