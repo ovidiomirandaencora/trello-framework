@@ -1,10 +1,11 @@
 name: execute_unit_test
+description: 'Unit tests and reporting'
 
 # Inputs the workflow accepts.
 inputs:
-   path: # id of input
-   required: true
-   type: string
+  path:
+    description: 'Path of unit test'
+    required: true
 
 runs:
   using: "composite"
@@ -12,13 +13,12 @@ runs:
   steps:
       # Execute unit tests.
       - name: Unit tests
-        if: always()
         run: gradle test
+        shell: bash
 
       # Generate report in GitHub action summary.
       - name: Unit test reporter
         uses: dorny/test-reporter@v1
-        if: always()
         with:
           name: unit-tests
           path: ${{ inputs.path }}
