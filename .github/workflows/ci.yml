@@ -193,6 +193,7 @@ jobs:
 
       # Execute unit tests.
       - name: Unit tests and reporting
+        if: always()
         uses: ./.github/actions/execute_unit_test.yml
         with:
           path: "./build/reports/tests/test/xml/TEST-*.xml"
