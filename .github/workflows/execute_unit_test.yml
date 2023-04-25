@@ -1,0 +1,29 @@
+name: execute_unit_test
+
+on:
+  workflow_call:
+    inputs:
+      path:
+        required: true
+        type: string
+
+jobs:
+  execute:
+    # The type of runner that the job will run on.
+    runs-on: ubuntu-latest
+
+    steps:
+      # Execute unit tests.
+      - name: Unit tests
+        if: always()
+        run: gradle test
+
+      # Generate report in GitHub action summary.
+      - name: Unit test reporter
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: unit-tests
+          path: ${{ inputs.path }}
+          reporter: java-junit
+          fail-on-error: false
