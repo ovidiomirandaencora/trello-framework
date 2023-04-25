@@ -9,6 +9,7 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab.
   workflow_dispatch:
+    # Inputs the workflow accepts.
     inputs:
       scenarioTag:
         description: 'Scenario Tag to execute(e.g. "@TC-00001")'
@@ -192,6 +193,6 @@ jobs:
 
       # Execute unit tests.
       - name: Unit tests and reporting
-        uses: ./.github/workflows/execute_unit_test.yml
+        uses: ./.github/actions/execute_unit_test.yml
         with:
           path: "./build/reports/tests/test/xml/TEST-*.xml"

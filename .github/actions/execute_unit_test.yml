@@ -2,6 +2,7 @@ name: execute_unit_test
 
 on:
   workflow_call:
+    # Inputs the workflow accepts.
     inputs:
       path:
         required: true
