@@ -172,6 +172,15 @@ jobs:
               -PapiUrl="${{ vars.API_URL }}" \
               -PapiKey="${{ secrets.API_KEY }}" -PapiToken="${{ secrets.API_TOKEN }}"
 
+      # Upload log file.
+      - name: Upload log file
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: logs${{ github.run_id }}
+          path: ./logs
+          retention-days: 5
+
       # Upload Allure report.
       - name: Upload report
         if: always()
@@ -181,15 +190,6 @@ jobs:
           path: ./build/allure
           retention-days: 5
           if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`.
-
-      # Upload log file.
-      - name: Upload log file
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: logs${{ github.run_id }}
-          path: ./logs
-          retention-days: 5
 
       # Execute unit tests.
       - name: Unit tests and reporting

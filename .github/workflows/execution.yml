@@ -71,6 +71,15 @@ jobs:
               -PapiUrl="${{ vars.API_URL }}" \
               -PapiKey="${{ secrets.API_KEY }}" -PapiToken="${{ secrets.API_TOKEN }}"
 
+      # Upload log file.
+      - name: Upload log file
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: logs${{ github.run_id }}
+          path: ./logs
+          retention-days: 5
+
       - name: Get Allure history
         uses: actions/checkout@v3
         if: always()
@@ -96,12 +105,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
-
-      # Upload log file.
-      - name: Upload log file
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: logs${{ github.run_id }}
-          path: ./logs
-          retention-days: 5
