@@ -1,19 +1,15 @@
 name: execute_unit_test
 
-on:
-  workflow_call:
-    # Inputs the workflow accepts.
-    inputs:
-      path:
-        required: true
-        type: string
+# Inputs the workflow accepts.
+inputs:
+   path: # id of input
+   required: true
+   type: string
 
-jobs:
-  execute:
-    # The type of runner that the job will run on.
-    runs-on: ubuntu-latest
+runs:
+  using: "composite"
 
-    steps:
+  steps:
       # Execute unit tests.
       - name: Unit tests
         if: always()
