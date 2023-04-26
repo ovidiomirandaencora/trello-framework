@@ -1,4 +1,4 @@
-name: SonarCloud
+name: SonarCloud code analysis
 on:
   workflow_call:
     secrets:
@@ -6,7 +6,6 @@ on:
         required: true
 jobs:
   sonarcloud:
-    name: Build and analyze
     runs-on: ubuntu-latest
 
     steps:

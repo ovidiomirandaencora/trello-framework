@@ -198,7 +198,7 @@ jobs:
         with:
           path: "./build/reports/tests/test/xml/TEST-*.xml"
 
-  call-workflow-sona-cloud:
+  sonarcloud:
     # Reusable workflows in the same repository.
     uses: ./.github/workflows/sonarcloud.yml
     secrets:
