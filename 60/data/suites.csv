@@ -1,0 +1,8 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Wed Apr 26 14:30:18 GMT 2023","Wed Apr 26 14:30:22 GMT 2023","3758","","Board","","Verify that a board can be created in a workspace","","Verify that a board can be created in a workspace",""
+"passed","Wed Apr 26 14:30:28 GMT 2023","Wed Apr 26 14:30:29 GMT 2023","1127","","Workspace","","Verify that a workspace can be created","","Verify that a workspace can be created",""
+"passed","Wed Apr 26 14:30:29 GMT 2023","Wed Apr 26 14:30:38 GMT 2023","9387","","Login","","Login successful","","Login successful",""
+"passed","Wed Apr 26 14:30:22 GMT 2023","Wed Apr 26 14:30:24 GMT 2023","2274","","Board","","Create a new Board with one character for the name","","Create a new Board with one character for the name",""
+"passed","Wed Apr 26 14:30:24 GMT 2023","Wed Apr 26 14:30:26 GMT 2023","1913","","List","","Verify that a list can be created in a Board","","Verify that a list can be created in a Board",""
+"passed","Wed Apr 26 14:30:29 GMT 2023","Wed Apr 26 14:30:29 GMT 2023","96","","Workspace","","Verify that a Workspace can't be created with an empty display name","","Verify that a Workspace can't be created with an empty display name",""
+"passed","Wed Apr 26 14:30:26 GMT 2023","Wed Apr 26 14:30:28 GMT 2023","2024","","List","","Verify that a list can be archived","","Verify that a list can be archived",""
