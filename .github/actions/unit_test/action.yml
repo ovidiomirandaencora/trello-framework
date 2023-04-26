@@ -1,0 +1,26 @@
+name: execute_unit_test
+description: 'Unit tests and reporting'
+
+# Inputs the action accepts.
+inputs:
+  path:
+    description: 'Path of unit tests'
+    required: true
+
+runs:
+  using: "composite"
+
+  steps:
+      # Execute unit tests.
+    - name: Unit tests
+      run: gradle test
+      shell: bash
+
+    # Generate report in GitHub action summary.
+    - name: Unit test reporter
+      uses: dorny/test-reporter@v1
+      with:
+        name: unit-tests
+        path: ${{ inputs.path }}
+        reporter: java-junit
+        fail-on-error: false
