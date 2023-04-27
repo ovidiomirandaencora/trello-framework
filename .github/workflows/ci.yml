@@ -32,8 +32,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Installing the environment
-        if: always()
         uses: ./.github/actions/install_environment
+        with:
+          java-ver: 8
+          java-distribution: 'temurin'
+          gradle-ver: 6.9
       - run: | 
               gradle assemble
               gradle assemble testClasses
