@@ -114,25 +114,6 @@ jobs:
       # to post a check with test reports in the GitHub Action Summary(Unit test).
 
     steps:
-      # Cloning you repository to the runner.
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up JDK 8 for x64
-        uses: actions/setup-java@v3
-        with:
-          java-version: 8
-          distribution: 'temurin'
-          architecture: x64
-
-      - name: Install and setup latest Google Chrome
-        uses: browser-actions/setup-chrome@v1
-
-      - name: Set up Gradle
-        uses: gradle/gradle-build-action@v2
-        with:
-          gradle-version: 6.9
-
       # Get the test case tag from the branch name.
       # Eg.
       # feature/TC-00004 -> "@TC-00004"
@@ -149,37 +130,16 @@ jobs:
           fi
 
       - name: Execute Features
-        id: execute-features
-        # Configuration variables in your repository.
-        # Settings -> Secrets and variables -> Actions -> Secrets(secrets) or Variables(vars).
-        run: |
-          gradle executeFeatures \
-              -Dcucumber.filter.tags="${{ github.event.inputs.scenarioTag || steps.get-id.outputs.tag }}" \
-              -Pbrowser="CHROME_HEADLESS" \
-              -PbaseUrl="${{ vars.BASE_URL }}" \
-              -Puser="${{ vars.USER_EMAIL }}" -Ppassword="${{ secrets.USER_PASSWORD }}" \
-              -PapiUrl="${{ vars.API_URL }}" \
-              -PapiKey="${{ secrets.API_KEY }}" -PapiToken="${{ secrets.API_TOKEN }}"
-
-      # Re-execute if there are failed scenarios using the 'rerun.txt' file.
-      - name: Re-Execute Features
-        if: ${{ failure() && steps.execute-features.conclusion == 'failure' }}
-        run: |
-          gradle reExecuteFeatures \
-              -Pbrowser="CHROME_HEADLESS" \
-              -PbaseUrl="${{ vars.BASE_URL }}" \
-              -Puser="${{ vars.USER_EMAIL }}" -Ppassword="${{ secrets.USER_PASSWORD }}" \
-              -PapiUrl="${{ vars.API_URL }}" \
-              -PapiKey="${{ secrets.API_KEY }}" -PapiToken="${{ secrets.API_TOKEN }}"
-
-      # Upload log file.
-      - name: Upload log file
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: ./.github/actions/execute_features
         with:
-          name: logs${{ github.run_id }}
-          path: ./logs
-          retention-days: 5
+          scenarioTag: ${{ github.event.inputs.scenarioTag || steps.get-id.outputs.tag }}
+          baseUrl: ${{ vars.BASE_URL }}
+          userEmail: ${{ vars.USER_EMAIL }}
+          userPassword: ${{ secrets.USER_PASSWORD }}
+          apiUrl: ${{ vars.API_URL }}
+          apiKey: ${{ secrets.API_KEY }}
+          apiToken: ${{ secrets.API_TOKEN }}
 
       # Upload Allure report.
       - name: Upload report
