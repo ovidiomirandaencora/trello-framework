@@ -129,37 +129,15 @@ jobs:
           fi
 
       - name: Execute Features
-        id: execute-features
-        # Configuration variables in your repository.
-        # Settings -> Secrets and variables -> Actions -> Secrets(secrets) or Variables(vars).
-        run: |
-          gradle executeFeatures \
-              -Dcucumber.filter.tags="${{ github.event.inputs.scenarioTag || steps.get-id.outputs.tag }}" \
-              -Pbrowser="CHROME_HEADLESS" \
-              -PbaseUrl="${{ vars.BASE_URL }}" \
-              -Puser="${{ vars.USER_EMAIL }}" -Ppassword="${{ secrets.USER_PASSWORD }}" \
-              -PapiUrl="${{ vars.API_URL }}" \
-              -PapiKey="${{ secrets.API_KEY }}" -PapiToken="${{ secrets.API_TOKEN }}"
-
-      # Re-execute if there are failed scenarios using the 'rerun.txt' file.
-      - name: Re-Execute Features
-        if: ${{ failure() && steps.execute-features.conclusion == 'failure' }}
-        run: |
-          gradle reExecuteFeatures \
-              -Pbrowser="CHROME_HEADLESS" \
-              -PbaseUrl="${{ vars.BASE_URL }}" \
-              -Puser="${{ vars.USER_EMAIL }}" -Ppassword="${{ secrets.USER_PASSWORD }}" \
-              -PapiUrl="${{ vars.API_URL }}" \
-              -PapiKey="${{ secrets.API_KEY }}" -PapiToken="${{ secrets.API_TOKEN }}"
-
-      # Upload log file.
-      - name: Upload log file
-        if: always()
-        uses: actions/upload-artifact@v3
+        uses: ./.github/actions/execute_features
         with:
-          name: logs${{ github.run_id }}
-          path: ./logs
-          retention-days: 5
+          scenarioTag: ${{ inputs.scenarioTag || steps.get-id.outputs.tag }}
+          baseUrl: ${{ vars.BASE_URL }}
+          userEmail: ${{ vars.USER_EMAIL }}
+          userPassword: ${{ secrets.USER_PASSWORD }}
+          apiUrl: ${{ vars.API_URL }}
+          apiKey: ${{ secrets.API_KEY }}
+          apiToken: ${{ secrets.API_TOKEN }}
 
       # Upload Allure report.
       - name: Upload report
@@ -178,7 +156,7 @@ jobs:
         with:
           path: "./build/reports/tests/test/xml/TEST-*.xml"
 
-  call-workflow:
+  sonarcloud:
     # Reusable workflows in the same repository.
     uses: ./.github/workflows/sonarcloud.yml
     secrets:

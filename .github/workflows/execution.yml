@@ -40,60 +40,18 @@ jobs:
           gradle-ver: 6.9
 
       - name: Execute Features
-        id: execute-features
-        # Configuration variables in your repository.
-        # Settings -> Secrets and variables -> Actions -> Secrets(secrets) or Variables(vars).
-        run: |
-          gradle executeFeatures \
-              -Dcucumber.filter.tags="${{ github.event.inputs.scenarioTag || '@Regression' }}" \
-              -Pbrowser="CHROME_HEADLESS" \
-              -PbaseUrl="${{ vars.BASE_URL }}" \
-              -Puser="${{ vars.USER_EMAIL }}" -Ppassword="${{ secrets.USER_PASSWORD }}" \
-              -PapiUrl="${{ vars.API_URL }}" \
-              -PapiKey="${{ secrets.API_KEY }}" -PapiToken="${{ secrets.API_TOKEN }}"
-
-      # Re-execute if there are failed scenarios using the 'rerun.txt' file.
-      - name: Re-Execute Features
-        if: ${{ failure() && steps.execute-features.conclusion == 'failure' }}
-        run: |
-          gradle reExecuteFeatures \
-              -Pbrowser="CHROME_HEADLESS" \
-              -PbaseUrl="${{ vars.BASE_URL }}" \
-              -Puser="${{ vars.USER_EMAIL }}" -Ppassword="${{ secrets.USER_PASSWORD }}" \
-              -PapiUrl="${{ vars.API_URL }}" \
-              -PapiKey="${{ secrets.API_KEY }}" -PapiToken="${{ secrets.API_TOKEN }}"
-
-      # Upload log file.
-      - name: Upload log file
-        if: always()
-        uses: actions/upload-artifact@v3
+        uses: ./.github/actions/execute_features
         with:
-          name: logs${{ github.run_id }}
-          path: ./logs
-          retention-days: 5
+          scenarioTag: ${{ inputs.scenarioTag || '@Regression' }}
+          baseUrl: ${{ vars.BASE_URL }}
+          userEmail: ${{ vars.USER_EMAIL }}
+          userPassword: ${{ secrets.USER_PASSWORD }}
+          apiUrl: ${{ vars.API_URL }}
+          apiKey: ${{ secrets.API_KEY }}
+          apiToken: ${{ secrets.API_TOKEN }}
 
-      - name: Get Allure history
-        uses: actions/checkout@v3
-        if: always()
-        continue-on-error: true
+      - name: Deploy allure report
+        uses: ./.github/actions/deploy_allure_report
         with:
-          ref: gh-pages
-          path: gh-pages
-
-      - name: Allure Report action from marketplace
-        uses: simple-elf/allure-report-action@master
-        if: always()
-        id: allure-report
-        with:
-          allure_results: ./build/allure/allure-results
-          gh_pages: gh-pages
-          allure_report: allure-report
-          allure_history: allure-history
-
-      - name: Deploy report to Github Pages
-        if: always()
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
+          allure_results_path: ./build/allure/allure-results
+          publish_name_branch: gh-pages

@@ -1,0 +1,72 @@
+name: 'Execute features'
+description: 'Execute features and rerun'
+
+# Inputs the action accepts.
+inputs:
+  scenarioTag:
+    description: 'Scenario Tag to execute(e.g. "@TC-00001")'
+    required: true
+    default: '@Regression'
+  baseUrl:
+    description: 'Base Url(e.g. "https://trello.com")'
+    required: true
+    default: 'https://trello.com'
+  userEmail:
+    description: 'User email (Web)(e.g. "user@gmail.com")'
+    required: true
+    default: 'user@gmail.com'
+  userPassword:
+    description: 'User password (Web)(e.g. "password")'
+    required: true
+    default: 'password'
+  apiUrl:
+    description: 'Api Url(e.g. "https://api.trello.com/1")'
+    required: true
+    default: 'https://api.trello.com/1'
+  apiKey:
+    description: 'API Key(e.g. "c60889ea05a8592e")'
+    required: true
+  apiToken:
+    description: 'API Token(e.g. "9rc055cf5a711d2")'
+    required: true
+
+runs:
+  using: 'composite'
+
+  steps:
+    - name: Execute Features
+      id: execute-features
+      # Configuration variables in your repository.
+      # Settings -> Secrets and variables -> Actions -> Secrets(secrets) or Variables(vars).
+      run: |
+        gradle executeFeatures \
+            -Dcucumber.filter.tags="${{ inputs.scenarioTag }}" \
+            -Pbrowser="CHROME_HEADLESS" \
+            -PbaseUrl="${{ inputs.baseUrl }}" \
+            -Puser="${{ inputs.userEmail }}" -Ppassword="${{ inputs.userPassword }}" \
+            -PapiUrl="${{ inputs.apiUrl }}" \
+            -PapiKey="${{ inputs.apiKey }}" -PapiToken="${{ inputs.apiToken }}"
+      shell: bash
+
+    # Re-execute if there are failed scenarios using the 'rerun.txt' file.
+    - name: Re-Execute Features
+      # Composite actions, now support if conditionals.
+      # https://github.blog/changelog/2021-11-09-github-actions-conditional-execution-of-steps-in-actions/
+      if: ${{ failure() && steps.execute-features.conclusion == 'failure' }}
+      run: |
+        gradle reExecuteFeatures \
+            -Pbrowser="CHROME_HEADLESS" \
+            -PbaseUrl="${{ inputs.baseUrl }}" \
+            -Puser="${{ inputs.userEmail }}" -Ppassword="${{ inputs.userPassword }}" \
+            -PapiUrl="${{ inputs.apiUrl }}" \
+            -PapiKey="${{ inputs.apiKey }}" -PapiToken="${{ inputs.apiToken }}"
+      shell: bash
+
+    # Upload log file.
+    - name: Upload log file
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: logs${{ github.run_id }}
+        path: ./logs
+        retention-days: 5
