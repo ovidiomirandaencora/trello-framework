@@ -27,6 +27,10 @@ jobs:
     # or is executed manually.
     if: contains(github.event.pull_request.labels.*.name, 'review_start') || github.event_name == 'workflow_dispatch'
     steps:
+      # Cloning you repository to the runner.
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Installing the environment
         if: always()
         uses: ./.github/actions/install_environment
