@@ -24,8 +24,13 @@ runs:
         distribution: ${{ inputs.java-distribution }}
         architecture: x64
 
-    - name: Install and setup latest Google Chrome
-      uses: browser-actions/setup-chrome@v1
+    # Using shell script to install Google Chrome.
+    - name: Install Google Chrome
+    # Install if the user email value is different from the default value.
+      run: |
+           chmod +x ./scripts/InstallChrome.sh
+            ./scripts/InstallChrome.sh
+      shell: bash
 
     - name: Set up Gradle
       uses: gradle/gradle-build-action@v2
