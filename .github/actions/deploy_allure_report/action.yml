@@ -28,7 +28,6 @@ runs:
 
     - name: Get Allure history
       uses: actions/checkout@v3
-      if: always()
       continue-on-error: true
       with:
         ref: ${{ inputs.publish_name_branch }}
@@ -36,7 +35,6 @@ runs:
 
     - name: Allure Report action from marketplace
       uses: simple-elf/allure-report-action@master
-      if: always()
       id: allure-report
       with:
         allure_results: ${{ inputs.allure_results_path }}
@@ -45,7 +43,6 @@ runs:
         allure_history: allure-history
 
     - name: Deploy report to Github Pages
-      if: always()
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ inputs.github_token }}

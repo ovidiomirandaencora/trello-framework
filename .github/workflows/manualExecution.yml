@@ -73,6 +73,7 @@ jobs:
           apiToken: ${{ inputs.apiToken }}
 
       - name: Deploy allure report
+        if: always()
         uses: ./.github/actions/deploy_allure_report
         with:
           allure_results_path: ./build/allure/allure-results
