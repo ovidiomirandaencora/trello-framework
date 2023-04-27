@@ -9,6 +9,9 @@ inputs:
   publish_name_branch:
     description: 'Publish branch: gh-pages'
     required: true
+  github_token:
+    description: 'Github token'
+    required: true
 
 runs:
   using: 'composite'
@@ -45,6 +48,6 @@ runs:
       if: always()
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ inputs.github_token }}
         publish_branch: ${{ inputs.publish_name_branch }}
         publish_dir: allure-history
