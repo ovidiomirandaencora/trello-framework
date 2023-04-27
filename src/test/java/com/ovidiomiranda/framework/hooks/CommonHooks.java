@@ -41,7 +41,7 @@ public class CommonHooks {
    */
   @Before(value = "@Web")
   public void beforeWeb() {
-//    DriverManager.getInstance().maximize();
+    // DriverManager.getInstance().maximize();
   }
 
   /**
@@ -49,13 +49,13 @@ public class CommonHooks {
    */
   @After(value = "@Web")
   public void logoutWeb() {
-//    // [OM] Logout.
-//    MainNavbar mainNavbar = new MainNavbar();
-//    mainNavbar.selectUserMenu("Logout");
-//    // [OM] It is necessary to wait until the Logout is successful.
-//    // Improve this section.
-//    Pause.pause(10000);
-//    DriverManager.getInstance().minimize();
+    // // [OM] Logout.
+    // MainNavbar mainNavbar = new MainNavbar();
+    // mainNavbar.selectUserMenu("Logout");
+    // // [OM] It is necessary to wait until the Logout is successful.
+    // // Improve this section.
+    // Pause.pause(10000);
+    // DriverManager.getInstance().minimize();
   }
 
   /**
