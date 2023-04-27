@@ -2,7 +2,7 @@ name: install_environment
 description: 'Installing the environment'
 
 runs:
-  using: "composite"
+  using: 'composite'
 
   steps:
     # Cloning you repository to the runner.
