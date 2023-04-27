@@ -131,7 +131,7 @@ jobs:
       - name: Execute Features
         uses: ./.github/actions/execute_features
         with:
-          scenarioTag: ${{ github.event.inputs.scenarioTag || steps.get-id.outputs.tag }}
+          scenarioTag: ${{ inputs.scenarioTag || steps.get-id.outputs.tag }}
           baseUrl: ${{ vars.BASE_URL }}
           userEmail: ${{ vars.USER_EMAIL }}
           userPassword: ${{ secrets.USER_PASSWORD }}
