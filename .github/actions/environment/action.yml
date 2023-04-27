@@ -1,18 +1,6 @@
 name: install_environment
 description: 'Installing the environment'
 
-# Inputs the action accepts.
-inputs:
-  java-ver:
-    description: 'Java Version'
-    required: true
-  java-distribution:
-    description: 'Java Distribution'
-    required: true
-  gradle-ver:
-    description: 'Gradle Version'
-    required: true
-
 runs:
   using: "composite"
 
@@ -24,8 +12,8 @@ runs:
     - name: Set up JDK 8 for x64
       uses: actions/setup-java@v3
       with:
-        java-version: ${{ inputs.java-ver }}
-        distribution: ${{ inputs.java-distribution }}
+        java-version: 8
+        distribution: 'temurin'
         architecture: x64
 
     - name: Install and setup latest Google Chrome
@@ -34,4 +22,4 @@ runs:
     - name: Set up Gradle
       uses: gradle/gradle-build-action@v2
       with:
-        gradle-version: ${{ inputs.gradle-ver }}
+        gradle-version: 6.9
