@@ -34,10 +34,9 @@ jobs:
           java-ver: 8
           java-distribution: "temurin"
           gradle-ver: 6.9
-        run: gradle assemble
-
-      - name: Build test classes
-        run: gradle assemble testClasses
+      - run: | 
+              gradle assemble
+              gradle assemble testClasses
 
   # Checkstyle and PMD.
   static-analysis:
