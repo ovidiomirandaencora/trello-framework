@@ -29,7 +29,7 @@ jobs:
     steps:
       - name: Installing the environment
         if: always()
-        uses: ./.github/actions/environment_install
+        uses: ./.github/actions/install_environment
       - run: | 
               gradle assemble
               gradle assemble testClasses
