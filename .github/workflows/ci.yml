@@ -29,7 +29,7 @@ jobs:
     steps:
       # Cloning you repository to the runner.
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3 # Necessary to access local action.
 
       - name: Installing the environment
         uses: ./.github/actions/install_environment
@@ -50,7 +50,7 @@ jobs:
     steps:
       # Cloning you repository to the runner.
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3 # Necessary to access local action.
 
       - name: Installing the environment
         uses: ./.github/actions/install_environment
@@ -75,7 +75,7 @@ jobs:
     steps:
       # Cloning you repository to the runner.
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3 # Necessary to access local action.
 
       - name: Installing the environment
         uses: ./.github/actions/install_environment
@@ -104,7 +104,7 @@ jobs:
     steps:
       # Cloning you repository to the runner.
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3 # Necessary to access local action.
 
       - name: Installing the environment
         uses: ./.github/actions/install_environment
