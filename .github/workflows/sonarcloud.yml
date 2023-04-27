@@ -6,7 +6,7 @@ on:
         required: true
 jobs:
   sonarcloud:
-    name: SonarCloud code analysis
+    name: Code analysis
     runs-on: ubuntu-latest
 
     steps:
