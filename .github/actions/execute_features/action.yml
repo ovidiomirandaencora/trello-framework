@@ -47,8 +47,6 @@ runs:
 
     # Using shell script to install Google Chrome.
     - name: Install Google Chrome
-      # Install if the user email value is different from the default value.
-      if: ${{ inputs.userEmail != 'user@gmail.com' }}
       run: |
         chmod +x ./scripts/InstallChrome.sh
         ./scripts/InstallChrome.sh
@@ -60,7 +58,6 @@ runs:
         gradle-version: 6.9
 
     - name: Execute Features
-      id: execute-features
       run: |
         gradle executeFeatures \
             -Dcucumber.filter.tags="${{ inputs.scenarioTag }}" \
@@ -73,7 +70,6 @@ runs:
 
     # Re-execute if there are failed scenarios using the 'rerun.txt' file.
     - name: Re-Execute Features
-      if: ${{ failure() && steps.execute-features.conclusion == 'failure' }}
       run: |
         gradle reExecuteFeatures \
             -Pbrowser="CHROME_HEADLESS" \
@@ -85,7 +81,6 @@ runs:
 
     # Upload log file.
     - name: Upload log file
-      if: always()
       uses: actions/upload-artifact@v3
       with:
         name: logs${{ github.run_id }}
